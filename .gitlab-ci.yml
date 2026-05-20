@@ -1,0 +1,49 @@
+stages:
+  - sync
+
+sync-to-gitlab:
+  stage: sync
+  # 使用轻量级系统作为海外搬运跳板
+  image: ubuntu:latest
+  
+  before_script:
+    # 核心修复 1：同时安装 skopeo 和 ca-certificates 证书库，防止 TLS 报错
+    - apt-get update && apt-get install -y skopeo ca-certificates
+    - update-ca-certificates
+    
+  script:
+    - |
+      # 核心修复 2：在这里定义你想同步的大陆常用多架构镜像列表
+      IMAGES=(
+        "jxxghp/moviepilot-v2:latest"
+        "amilys/embyserver:latest"
+        "amilys/embyserver_arm64v8:latest"
+        "linuxserver/emby:latest"
+        "linuxserver/transmission:latest"
+        "nyanmisaka/jellyfin:latest"
+        "snowdreamtech/frpc:latest"
+        "iyuucn/iyuuplus-dev:latest"
+        "dreamacro/clash:latest"
+        "haishanh/yacd:latest"
+        "metatube/metatube-server:latest"
+        "mzz2017/v2raya:latest"
+        "linuxserver/qbittorrent:latest"
+        "linuxserver/transmission:4.0.5"
+        "linuxserver/qbittorrent:4.6.7"
+        "redis:latest"
+        "postgres:latest"
+        "ghcr.io/metacubex/metacubexd"
+      )
+    # 核心修复 3：极狐内置变量会自动登录到 registry.gitlab.cn，免去手动配置密码
+    - echo "$CI_REGISTRY_PASSWORD" | skopeo login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - |
+      for IMAGE in "${IMAGES[@]}"; do
+        echo "正在同步: $IMAGE 到极狐 GitLab 镜像仓库..."
+        # 核心修复 4：去掉了第三方镜像多余的 library/ 路径
+        skopeo copy --all docker://docker.io/$IMAGE docker://$CI_REGISTRY_IMAGE/$IMAGE
+        echo "✅ $IMAGE 同步成功！"
+      done
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
