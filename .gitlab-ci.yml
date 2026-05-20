@@ -1,7 +1,7 @@
 stages:
   - sync
 
-sync-to-gitlab:
+sync-com-to-cn:
   stage: sync
   image: ubuntu:latest
   
@@ -11,14 +11,15 @@ sync-to-gitlab:
     
   script:
     - |
+      # ⚠️【注意】：请把下面的 你的国际版用户名 替换成你 gitlab.com 的实际用户名
+      # 如果你的国际版项目名不叫 docker，请把后面的 /docker/ 改成你的实际项目名
+      COM_REGISTRY="registry.gitlab.com/tmzg0000/docker"
+      
       IMAGES=(
         "jxxghp/moviepilot-v2:latest"
-        "linuxserver/transmission:4.0.5"
-        "linuxserver/qbittorrent:4.6.7"
         "amilys/embyserver:latest"
         "amilys/embyserver_arm64v8:latest"
         "linuxserver/emby:latest"
-        "linuxserver/qbittorrent:latest"
         "linuxserver/transmission:latest"
         "nyanmisaka/jellyfin:latest"
         "snowdreamtech/frpc:latest"
@@ -27,34 +28,30 @@ sync-to-gitlab:
         "haishanh/yacd:latest"
         "metatube/metatube-server:latest"
         "mzz2017/v2raya:latest"
+        "linuxserver/qbittorrent:latest"
+        "linuxserver/transmission:4.0.5"
+        "linuxserver/qbittorrent:4.6.7"
         "redis:latest"
         "postgres:latest"
-        "ghcr.io/metacubex/metacubexd:latest"
+        "metacubex/metacubexd:latest"
       )
+    # 登录极狐国内本地的镜像仓库
     - echo "$CI_REGISTRY_PASSWORD" | skopeo login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - |
       for IMAGE in "${IMAGES[@]}"; do
         echo "----------------------------------------"
-        # 1. 智能判断源仓库：如果是 ghcr.io 开头，就不拼 docker.io
-        if [[ "$IMAGE" == ghcr.io/* ]]; then
-          SRC_URL="docker://$IMAGE"
-          # 定制在国内保存时的名字（去掉 ghcr.io/ 前缀，方便拉取）
-          DEST_NAME=$(echo "$IMAGE" | sed 's|ghcr.io/||' | tr '/' '_')
-        else
-          SRC_URL="docker://docker.io/$IMAGE"
-          # 定制国内保存名字，把中间的斜杠变成下划线，防止极狐多层级报错
-          DEST_NAME=$(echo "$IMAGE" | tr '/' '_')
-        fi
+        # 直接从你的国际版私有库（海外源）拉取
+        SRC_URL="docker://$COM_REGISTRY/$IMAGE"
         
-        echo "开始搬运: $SRC_URL -> 目标: $CI_REGISTRY_IMAGE/$DEST_NAME"
+        echo "正在跨海对拷: $SRC_URL -> 目标: $CI_REGISTRY_IMAGE/$IMAGE"
         
-        # 执行同步
-        skopeo copy --all "$SRC_URL" "docker://$CI_REGISTRY_IMAGE/$DEST_NAME"
+        # 执行对拷（添加 --src-tls-verify=false 确保跨境握手更稳）
+        skopeo copy --all --src-tls-verify=false "$SRC_URL" "docker://$CI_REGISTRY_IMAGE/$IMAGE"
         
         if [ $? -eq 0 ]; then
-          echo "✅ $IMAGE 同步成功！"
+          echo "✅ $IMAGE 跨境对拷成功！"
         else
-          echo "❌ $IMAGE 同步失败！"
+          echo "❌ $IMAGE 跨境对拷失败！"
         fi
       done
 
