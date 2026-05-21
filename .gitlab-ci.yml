@@ -1,79 +1,55 @@
 stages:
-  - sync
+  - generate
+  - trigger
 
-sync-com-to-cn:
-  stage: sync
-  image: ubuntu:latest
-  
+# 阶段一：自动数一数有多少镜像，并当场写出一份专属的流水线配置文件
+generate-pipeline:
+  stage: generate
+  image: alpine:latest
   before_script:
-    - apt-get update && apt-get install -y skopeo ca-certificates jq curl
-    - update-ca-certificates
-    # 🌟 每次运行前，去国际版强行拉取最新的 images.txt 覆盖本地
-    # 【注意】：请把下面的 URL 换成你刚才复制的国际版 images.txt 的 Raw 链接
+    - apk add --no-cache curl
     - curl -o images.txt "https://gitlab.com/tmzg0000/docker/-/raw/main/images.txt"
-    
+    - sed -i '/^#/d; /^$/d' images.txt
   script:
-    - set +e
+    # 1. 初始化动态配置文件的头部
+    - echo "stages:" > child-pipeline.yml
+    - echo "  - sync" >> child-pipeline.yml
+    - echo "" >> child-pipeline.yml
+    
+    # 2. 用一条循环，根据 images.txt 的实际行数，自动生成对应的 Job
+    - INDEX=0
     - |
-      if [ ! -f "images.txt" ]; then
-        echo "❌ 错误：未能成功从国际版下载 images.txt 文件！"
-        exit 1
-      fi
-      mapfile -t IMAGES < <(tr -d '\r' < images.txt | grep -v '^#' | grep -v '^$')
-      
-    # ⚠️ 替换为你国际版 (gitlab.com) 的真实用户名
-    - COM_REGISTRY="registry.gitlab.com/tmzg0000/docker"
-      
-    - echo "$CI_REGISTRY_PASSWORD" | skopeo login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-    - |
-      FAILED_COUNT=0
-      
-      for IMAGE in "${IMAGES[@]}"; do
+      while read -r IMAGE; do
         IMAGE=$(echo "$IMAGE" | xargs)
         [ -z "$IMAGE" ] && continue
         
-        echo "----------------------------------------"
-        if [[ "$IMAGE" == ghcr.io/* ]]; then
-          REAL_NAME=$(echo "$IMAGE" | sed 's|ghcr.io/||')
-        else
-          REAL_NAME="$IMAGE"
-        fi
+        REAL_NAME=$(echo "$IMAGE" | sed 's|ghcr.io/||')
         
-        SRC_URL="docker://$COM_REGISTRY/$REAL_NAME"
-        DEST_URL="docker://$CI_REGISTRY_IMAGE/$REAL_NAME"
+        echo "sync-job-${INDEX}:" >> child-pipeline.yml
+        echo "  stage: sync" >> child-pipeline.yml
+        echo "  image: alpine:latest" >> child-pipeline.yml
+        echo "  script:" >> child-pipeline.yml
+        echo "    - apk add --no-cache skopeo" >> child-pipeline.yml
+        echo "    - echo \"\$CI_REGISTRY_PASSWORD\" | skopeo login \$CI_REGISTRY -u \$CI_REGISTRY_USER --password-stdin" >> child-pipeline.yml
+        echo "    - echo \"正在同步: ${REAL_NAME}\"" >> child-pipeline.yml
+        echo "    - skopeo copy --all --src-tls-verify=false --retry-times=5 --retry-delay=3s \"docker://registry.gitlab.com/tmzg0000/docker/${REAL_NAME}\" \"docker://\$CI_REGISTRY_IMAGE/${REAL_NAME}\"" >> child-pipeline.yml
+        echo "" >> child-pipeline.yml
         
-        echo "正在检查跨境同步: $REAL_NAME"
+        INDEX=$((INDEX+1))
+      done < images.txt
+  artifacts:
+    paths:
+      - child-pipeline.yml
 
-        SRC_DIGEST=""
-        for retry in {1..3}; do
-          SRC_DIGEST=$(skopeo inspect --src-tls-verify=false "$SRC_URL" 2>/dev/null | jq -r '.Digest' 2>/dev/null)
-          if [ -n "$SRC_DIGEST" ] && [ "$SRC_DIGEST" != "null" ]; then
-            break 
-          fi
-          sleep 1
-        done
-        
-        DEST_DIGEST=$(skopeo inspect "$DEST_URL" 2>/dev/null | jq -r '.Digest' 2>/dev/null)
+# 阶段二：把刚才新鲜出炉的配置文件丢给 GitLab 跑起来！
+trigger-child-pipeline:
+  stage: trigger
+  trigger:
+    include:
+      - artifact: child-pipeline.yml
+        job: generate-pipeline
+    strategy: depend
 
-        if [ -n "$SRC_DIGEST" ] && [ "$SRC_DIGEST" != "null" ] && [ "$SRC_DIGEST" = "$DEST_DIGEST" ]; then
-          echo "🍃 大陆端已是最新版本，已优雅跳过。"
-        else
-          echo "🚀 开始跨海对拷镜像..."
-          if skopeo copy --all --src-tls-verify=false "$SRC_URL" "$DEST_URL" || skopeo copy --all --src-tls-verify=false "$SRC_URL" "$DEST_URL"; then
-            echo "✅ $IMAGE 跨境对拷成功！"
-          else
-            echo "❌ 🔴 致命错误: $IMAGE 跨境对拷推流失败！"
-            FAILED_COUNT=$((FAILED_COUNT + 1))
-          fi
-        fi
-      done
-      
-      if [ $FAILED_COUNT -gt 0 ]; then
-        echo "========================================"
-        echo "统计：同步结束，共有 $FAILED_COUNT 个镜像遇到跨境失败。"
-        echo "========================================"
-      fi
-
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+rules:
+  - if: '$CI_PIPELINE_SOURCE == "web"'
+  - if: '$CI_PIPELINE_SOURCE == "schedule"'
