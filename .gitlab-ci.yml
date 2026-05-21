@@ -2,7 +2,7 @@ stages:
   - generate
   - trigger
 
-# 阶段一：动态生成子流水线配置（已彻底理顺缩进）
+# 阶段一：动态生成子流水线配置（修复 Token 传递问题）
 generate-pipeline:
   stage: generate
   image: alpine:latest
@@ -19,7 +19,7 @@ generate-pipeline:
     - echo "  - sync" >> child-pipeline.yml
     - echo "" >> child-pipeline.yml
     
-    # 2. 循环读取列表，单行追加，确保生成的格式百分之百精准
+    # 2. 循环读取列表，直接把当前有效的环境变量塞进子配置中
     - INDEX=0
     - |
       while read -r IMAGE; do
@@ -28,13 +28,13 @@ generate-pipeline:
         
         REAL_NAME=$(echo "$IMAGE" | sed 's|ghcr.io/||')
         
-        # 严格控制每一行的空格数量，直接写入文件
         echo "sync-job-${INDEX}:" >> child-pipeline.yml
         echo "  stage: sync" >> child-pipeline.yml
         echo "  image: alpine:latest" >> child-pipeline.yml
         echo "  script:" >> child-pipeline.yml
         echo "    - apk add --no-cache skopeo" >> child-pipeline.yml
-        echo "    - echo \"${CI_REGISTRY_PASSWORD}\" | skopeo login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} --password-stdin" >> child-pipeline.yml
+        # 这里改用显式变量传递，用单引号把值锁死，确保子流水线能拿到正确的临时 Token
+        echo "    - echo '${CI_JOB_TOKEN}' | skopeo login registry.jihulab.com -u gitlab-ci-token --password-stdin" >> child-pipeline.yml
         echo "    - echo \"正在同步：${REAL_NAME}\"" >> child-pipeline.yml
         echo "    - skopeo copy --all --src-tls-verify=false --retry-times=5 --retry-delay=3s \"docker://registry.gitlab.com/tmzg0000/docker/${REAL_NAME}\" \"docker://${CI_REGISTRY_IMAGE}/${REAL_NAME}\"" >> child-pipeline.yml
         echo "" >> child-pipeline.yml
