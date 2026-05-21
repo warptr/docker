@@ -6,54 +6,73 @@ sync-com-to-cn:
   image: ubuntu:latest
   
   before_script:
-    - apt-get update && apt-get install -y skopeo ca-certificates
+    - apt-get update && apt-get install -y skopeo ca-certificates jq curl
     - update-ca-certificates
+    # 🌟 每次运行前，去国际版强行拉取最新的 images.txt 覆盖本地
+    # 【注意】：请把下面的 URL 换成你刚才复制的国际版 images.txt 的 Raw 链接
+    - curl -o images.txt "https://gitlab.com/tmzg0000/docker/-/raw/main/images.txt"
     
   script:
+    - set +e
     - |
-      # ⚠️【注意】：请把下面的 你的国际版用户名 替换成你 gitlab.com 的实际用户名
-      # 如果你的国际版项目名不叫 docker，请把后面的 /docker/ 改成你的实际项目名
-      COM_REGISTRY="registry.gitlab.com/tmzg0000/docker"
+      if [ ! -f "images.txt" ]; then
+        echo "❌ 错误：未能成功从国际版下载 images.txt 文件！"
+        exit 1
+      fi
+      mapfile -t IMAGES < <(tr -d '\r' < images.txt | grep -v '^#' | grep -v '^$')
       
-      IMAGES=(
-        "jxxghp/moviepilot-v2:latest"
-        "amilys/embyserver:latest"
-        "amilys/embyserver_arm64v8:latest"
-        "linuxserver/emby:latest"
-        "linuxserver/transmission:latest"
-        "nyanmisaka/jellyfin:latest"
-        "snowdreamtech/frpc:latest"
-        "iyuucn/iyuuplus-dev:latest"
-        "dreamacro/clash:latest"
-        "haishanh/yacd:latest"
-        "metatube/metatube-server:latest"
-        "mzz2017/v2raya:latest"
-        "linuxserver/qbittorrent:latest"
-        "linuxserver/transmission:4.0.5"
-        "linuxserver/qbittorrent:4.6.7"
-        "redis:latest"
-        "postgres:latest"
-        "metacubex/metacubexd:latest"
-      )
-    # 登录极狐国内本地的镜像仓库
+    # ⚠️ 替换为你国际版 (gitlab.com) 的真实用户名
+    - COM_REGISTRY="registry.gitlab.com/tmzg0000/docker"
+      
     - echo "$CI_REGISTRY_PASSWORD" | skopeo login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - |
+      FAILED_COUNT=0
+      
       for IMAGE in "${IMAGES[@]}"; do
+        IMAGE=$(echo "$IMAGE" | xargs)
+        [ -z "$IMAGE" ] && continue
+        
         echo "----------------------------------------"
-        # 直接从你的国际版私有库（海外源）拉取
-        SRC_URL="docker://$COM_REGISTRY/$IMAGE"
-        
-        echo "正在跨海对拷: $SRC_URL -> 目标: $CI_REGISTRY_IMAGE/$IMAGE"
-        
-        # 执行对拷（添加 --src-tls-verify=false 确保跨境握手更稳）
-        skopeo copy --all --src-tls-verify=false "$SRC_URL" "docker://$CI_REGISTRY_IMAGE/$IMAGE"
-        
-        if [ $? -eq 0 ]; then
-          echo "✅ $IMAGE 跨境对拷成功！"
+        if [[ "$IMAGE" == ghcr.io/* ]]; then
+          REAL_NAME=$(echo "$IMAGE" | sed 's|ghcr.io/||')
         else
-          echo "❌ $IMAGE 跨境对拷失败！"
+          REAL_NAME="$IMAGE"
+        fi
+        
+        SRC_URL="docker://$COM_REGISTRY/$REAL_NAME"
+        DEST_URL="docker://$CI_REGISTRY_IMAGE/$REAL_NAME"
+        
+        echo "正在检查跨境同步: $REAL_NAME"
+
+        SRC_DIGEST=""
+        for retry in {1..3}; do
+          SRC_DIGEST=$(skopeo inspect --src-tls-verify=false "$SRC_URL" 2>/dev/null | jq -r '.Digest' 2>/dev/null)
+          if [ -n "$SRC_DIGEST" ] && [ "$SRC_DIGEST" != "null" ]; then
+            break 
+          fi
+          sleep 1
+        done
+        
+        DEST_DIGEST=$(skopeo inspect "$DEST_URL" 2>/dev/null | jq -r '.Digest' 2>/dev/null)
+
+        if [ -n "$SRC_DIGEST" ] && [ "$SRC_DIGEST" != "null" ] && [ "$SRC_DIGEST" = "$DEST_DIGEST" ]; then
+          echo "🍃 大陆端已是最新版本，已优雅跳过。"
+        else
+          echo "🚀 开始跨海对拷镜像..."
+          if skopeo copy --all --src-tls-verify=false "$SRC_URL" "$DEST_URL" || skopeo copy --all --src-tls-verify=false "$SRC_URL" "$DEST_URL"; then
+            echo "✅ $IMAGE 跨境对拷成功！"
+          else
+            echo "❌ 🔴 致命错误: $IMAGE 跨境对拷推流失败！"
+            FAILED_COUNT=$((FAILED_COUNT + 1))
+          fi
         fi
       done
+      
+      if [ $FAILED_COUNT -gt 0 ]; then
+        echo "========================================"
+        echo "统计：同步结束，共有 $FAILED_COUNT 个镜像遇到跨境失败。"
+        echo "========================================"
+      fi
 
   rules:
     - if: '$CI_PIPELINE_SOURCE == "web"'
