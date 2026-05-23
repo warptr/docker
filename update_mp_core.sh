@@ -57,7 +57,7 @@ cd "$TARGET_PATH"
 rm -rf ..?* .[!.]* * || true
 
 # ⭐ 新增：强制防缓存参数，确保每次拉取的都是极狐云端最新版！
-echo "📥 正在通过极狐国内骨干网疯狂下载最新官方原厂包..."
+echo "📥 正在通过极狐国内下载最新官方原厂包..."
 wget --no-cache --no-cookies --no-dns-cache -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
 
 echo "📦 正在标准解压并释放原生目录树..."
