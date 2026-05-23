@@ -4,7 +4,7 @@
 set -e
 
 echo "========================================================="
-echo "🚀 MoviePilot 内核更新器 【Docker路径自动补全自建版】"
+echo "🚀 MoviePilot 内核更新器 【CloakBrowser 官方纯血同步版】"
 echo "========================================================="
 
 # 设置默认的 docker 基础路径
@@ -51,15 +51,16 @@ esac
 DOWNLOAD_URL="https://jihulab.com/api/v4/projects/tmzg0000%2Fdocker/packages/generic/moviepilot-core/v2-latest/mp-core-all-${JIHU_ARCH}.tar.gz"
 
 echo "--------------------------------------------------------"
-echo "🧹 正在深度清理旧内核及隐藏文件残渣..."
+echo "🧹 正在深度清理旧内核及隐藏残渣..."
 cd "$TARGET_PATH"
-# 清准清除旧文件及以 . 开头的隐藏目录（如 .links）
+# 精准清除旧文件及以 . 开头的隐藏目录
 rm -rf ..?* .[!.]* * || true
 
-echo "📥 正在通过极狐国内骨干网疯狂下载最新全家桶..."
-wget -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
+# ⭐ 新增：强制防缓存参数，确保每次拉取的都是极狐云端最新版！
+echo "📥 正在通过极狐国内骨干网疯狂下载最新官方原厂包..."
+wget --no-cache --no-cookies --no-dns-cache -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
 
-echo "📦 正在标准解压并还原全家桶（保留原生软硬链接属性）..."
+echo "📦 正在标准解压并释放原生目录树..."
 tar -xzpf mp-core-all.tar.gz
 rm mp-core-all.tar.gz
 
@@ -67,6 +68,7 @@ echo "🔒 正在强力注入本地可执行授权..."
 chmod -R +x .
 
 echo "--------------------------------------------------------"
-echo "✅ 大功告成！内核全家桶（含 .links）已完美注入路径: $TARGET_PATH"
-echo "🐳 现在你可以去飞牛后台，放心无脑启动你的 MoviePilot 容器了！"
+echo "✅ 大功告成！CloakBrowser 官方原厂内核已完美注入路径: $TARGET_PATH"
+echo "🐳 飞牛后台 Docker 挂载请确保为: /vol1/1000/docker/moviepilot-v2/core ➡️ /moviepilot/.cloakbrowser"
+echo "🚀 现在你可以放心无脑启动或重启你的 MoviePilot 容器了！"
 echo "========================================================="
