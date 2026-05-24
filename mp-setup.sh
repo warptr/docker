@@ -57,7 +57,9 @@ MEDIA_PATH=${INPUT_MEDIA:-/vol1/1000/media}
 echo "-> 最终 DOCKER_PATH: $DOCKER_PATH"
 echo "-> 最终 MEDIA_PATH:  $MEDIA_PATH"
 echo "======================================="
-
+echo "📂 正在进入目标部署路径..."
+mkdir -p "$DOCKER_PATH"
+cd "$DOCKER_PATH" || { echo "❌ 无法进入目录 $DOCKER_PATH，请检查权限！"; exit 1; }
 # ==========================================
 # 2. 下载临时 ZIP 包
 # ==========================================
@@ -128,7 +130,8 @@ if [ -f "update_mp_core.sh" ]; then
     echo "⚙️ 检测到 update_mp_core.sh，准备执行核心环境初始化..."
     chmod +x update_mp_core.sh
     echo "$DOCKER_PATH" | bash ./update_mp_core.sh
-    echo "⚙️ 初始化脚本执行完毕！"
+    rm -f update_mp_core.sh
+    echo "⚙️ 浏览器核心初始化脚本执行完毕！"
     echo "======================================="
 else
     echo "⚠️ 未找到 update_mp_core.sh，跳过初始化。"
