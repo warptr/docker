@@ -49,8 +49,8 @@ services:
     restart: always
 
   amilys-emby:
-    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver:latest
-#    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver_arm64v8:latest
+#    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver:latest
+    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver_arm64v8:latest
     container_name: amilys-emby
     environment:
 #      - HTTP_PROXY=http://127.0.0.1:20171
@@ -66,6 +66,20 @@ services:
     network_mode: "host"
     ports:
       - "18096:18096"
-    restart: always
-    devices:
-      - /dev/dri:/dev/dri
+    restart: unless-stopped
+#    devices:
+#      - /dev/dri:/dev/dri
+#      - /dev/dma_heap:/dev/dma_heap
+#      - /dev/mali0:/dev/mali0
+#      - /dev/rga:/dev/rga
+#      - /dev/mpp_service:/dev/mpp_service
+#      - /dev/mpp-service:/dev/mpp-service
+#      - /dev/iep:/dev/iep
+#      - /dev/vpu_service:/dev/vpu_service
+#      - /dev/vpu-service:/dev/vpu-service
+#      - /dev/hevc_service:/dev/hevc_service
+#      - /dev/hevc-service:/dev/hevc-service
+#      - /dev/rkvdec:/dev/rkvdec
+#      - /dev/rkvenc:/dev/rkvenc
+#      - /dev/vepu:/dev/vepu
+#      - /dev/h265e:/dev/h265e
