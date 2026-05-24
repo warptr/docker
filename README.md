@@ -19,7 +19,7 @@ bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/update_mp_core.
 各分支同步main命令
 
 ```
-$branches = "fnos", "fnos-arm", "ugreen"; foreach ($b in $branches) { git checkout $b; git merge main; git push } ; git checkout main
+$branches = "fnos", "fnos-arm", "ugreen"; foreach ($b in $branches) { git checkout $b; git merge main --no-edit; git push } ; git checkout main
 ```
 
 
