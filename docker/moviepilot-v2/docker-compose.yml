@@ -16,8 +16,8 @@ services:
       - '${MEDIA_PATH}:/media'
       - '${MEDIA_PATH}/下载:/downloads'
     network_mode: "host"
-#    ports:
-#      - "19990:19990"
+    ports:
+      - "19990:19990"
     restart: always
 
   moviepilot:
@@ -44,8 +44,8 @@ services:
       - '${DOCKER_PATH}/qbittorrent/config/qBittorrent/BT_backup:/BT_backup'
 #      - '${DOCKER_PATH}/transmission/config/torrents:/torrents'
     network_mode: "host"
-#    ports:
-#      - "13000:13000"
+    ports:
+      - "13000:13000"
     restart: always
 
   amilys-emby:
@@ -64,8 +64,8 @@ services:
       - '${DOCKER_PATH}/amilys-emby/config:/config'
       - '${MEDIA_PATH}:/media'
     network_mode: "host"
-#    ports:
-#      - "18096:18096"
+    ports:
+      - "18096:18096"
     restart: always
     devices:
       - /dev/dri:/dev/dri
