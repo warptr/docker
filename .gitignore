@@ -3,17 +3,13 @@ __pycache__/
 *.pyc
 
 
-/docker/moviepilot-v2/config/user.db
+#/docker/moviepilot-v2/config/user.db
 # 忽略所有的 SQLite 数据库文件
 #*.db
 #*.sqlite
 
 
 # 忽略 MoviePilot 的缓存、日志和临时目录（强烈建议加上）
-**/moviepilot-v2/config/cache/
-**/moviepilot-v2/config/logs/
-**/moviepilot-v2/config/temp/
-**/moviepilot-v2/config/cookies/
 **/amilys-emby/config/cache/
 **/amilys-emby/config/logs/
 **/amilys-emby/config/transcoding-temp/
