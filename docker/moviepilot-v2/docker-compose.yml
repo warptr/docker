@@ -6,8 +6,8 @@ services:
 #    5版本 image: registry.jihulab.com/tmzg0000/docker/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
-      - PUID=0
-      - PGID=0
+      - PUID=1000
+      - PGID=10
       - TZ=Asia/Shanghai
       - WEBUI_PORT=19990
       # - TORRENTING_PORT=50004
@@ -29,8 +29,8 @@ services:
     environment:
       - NGINX_PORT=13000
       - PORT=13001
-      - PUID=0
-      - PGID=0
+      - PUID=1000
+      - PGID=10
       - UMASK=000
       - TZ=Asia/Shanghai
       - MOVIEPILOT_AUTO_UPDATE=false
@@ -57,8 +57,8 @@ services:
 #      - HTTPS_PROXY=http://127.0.0.1:20171
 #      - NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
       - TZ=Asia/Shanghai
-      - PUID=0
-      - PGID=0
+      - PUID=1000
+      - PGID=10
       - GIDLIST=0
     volumes:
       - '${DOCKER_PATH}/amilys-emby/config:/config'
