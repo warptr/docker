@@ -1,3 +1,8 @@
+# 忽略 Python 缓存文件
+__pycache__/
+*.pyc
+
+
 /docker/moviepilot-v2/config/user.db
 # 忽略所有的 SQLite 数据库文件
 #*.db
