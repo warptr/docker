@@ -1,0 +1,795 @@
+【INFO】2026-05-24 17:51:08,311 - 294b007932ef_2_0_0.py - 【超级管理员初始密码】H6glXVMjZF8s0Kn5vFEGTg 请登录系统后在设定中修改。 注：该密码只会显示一次，请注意保存。
+【INFO】2026-05-24 17:51:38,602 - category.py - 已加载二级分类策略 category.yaml
+【INFO】2026-05-24 17:51:38,605 - torrents.py - 开始清理种子缓存数据 ...
+【INFO】2026-05-24 17:51:38,605 - torrents.py - 种子缓存数据清理完成
+【INFO】2026-05-24 17:51:38,689 - 41ef1dd7467c_2_2_2.py - SystemConfig 表去重操作已完成。
+【INFO】2026-05-24 17:51:42,001 - factory.py - 成功创建 78 个MoviePilot工具
+【INFO】2026-05-24 17:51:42,001 - manager.py - 成功加载 78 个工具
+【INFO】2026-05-24 17:51:45,007 - modules_initializer.py - 认证资源版本：2.4.8
+【INFO】2026-05-24 17:51:45,008 - modules_initializer.py - 站点资源版本：2.3.11
+【INFO】2026-05-24 17:51:45,008 - resource.py - 开始检测资源包版本...
+【INFO】2026-05-24 17:51:45,008 - resource.py - 最新资源包版本：v150
+【INFO】2026-05-24 17:51:45,008 - resource.py - user.sites.v2.bin 资源包有更新，最新版本：v2.3.12
+【INFO】2026-05-24 17:51:48,009 - resource.py - 需要下载的资源文件：['user.sites.v2.bin', 'sites.cpython-312-x86_64-linux-gnu.so']
+【INFO】2026-05-24 17:51:48,009 - resource.py - 开始更新资源文件：user.sites.v2.bin ...
+【INFO】2026-05-24 17:51:49,412 - resource.py - 资源包更新完成，开始重启服务...
+【INFO】2026-05-24 17:51:49,413 - system.py - 容器重启策略: always, 支持自动重启: True
+【INFO】2026-05-24 17:51:49,413 - system.py - 检测到容器配置了自动重启策略，使用优雅重启方式...
+【INFO】2026-05-24 17:51:49,413 - modules_initializer.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！
+【INFO】2026-05-24 17:51:49,413 - subscribe.py - 当前用户UUID: 92ea784f0110e40a87382be940fad6bc3a2ef3e02e6b002cb7292ff9ef8c973b
+【INFO】2026-05-24 17:51:49,413 - agent_initializer.py - AI智能体功能未启用
+【INFO】2026-05-24 17:51:49,414 - chain - NotificationType.Manual 的消息已设置发送给管理员
+【INFO】2026-05-24 17:51:49,414 - message.py - 发送消息：{'message': Notification(channel=None, source=None, mtype=<NotificationType.Manual: '手动处理'>, ctype=None, title='MoviePilot用户认证', text='用户认证失败，站点相关功能将无法使用！', image=None, voice_path=None, file_path=None, file_name=None, voice_caption=None, link=None, userid=None, username=None, date=None, action=1, targets={}, buttons=None, original_message_id=None, original_chat_id=None, disable_web_page_preview=None), 'current_time': '2026-05-24 17:51:49'}
+【INFO】2026-05-24 17:51:49,414 - system.py - 已恢复插件目录: apprisemsg
+【INFO】2026-05-24 17:51:49,414 - system.py - 已恢复插件目录: autoclean
+【INFO】2026-05-24 17:51:49,414 - system.py - 已恢复插件目录: autosignin
+【INFO】2026-05-24 17:51:49,414 - system.py - 已恢复插件目录: autosubv2
+【INFO】2026-05-24 17:51:49,414 - system.py - 已恢复插件目录: bangumicoll
+【INFO】2026-05-24 17:51:49,415 - system.py - 已恢复插件目录: barkmsg
+【INFO】2026-05-24 17:51:49,415 - system.py - 已恢复插件目录: brushflow
+【INFO】2026-05-24 17:51:49,415 - system.py - 已恢复插件目录: bugreporter
+【INFO】2026-05-24 17:51:49,415 - system.py - 已恢复插件目录: categoryeditor
+【INFO】2026-05-24 17:51:49,415 - system.py - 已恢复插件目录: chatgpt
+【INFO】2026-05-24 17:51:49,415 - system.py - 已恢复插件目录: chinesesubfinder
+【INFO】2026-05-24 17:51:49,415 - system.py - 已恢复插件目录: clashruleprovider
+【INFO】2026-05-24 17:51:49,415 - system.py - 已恢复插件目录: cleaninvalidplugin
+【INFO】2026-05-24 17:51:49,416 - system.py - 已恢复插件目录: cleaninvalidseed
+【INFO】2026-05-24 17:51:49,416 - system.py - 已恢复插件目录: cloudflarespeedtest
+【INFO】2026-05-24 17:51:49,416 - system.py - 已恢复插件目录: cloudlinkmonitor
+【INFO】2026-05-24 17:51:49,416 - system.py - 已恢复插件目录: contractcheck
+【INFO】2026-05-24 17:51:49,416 - system.py - 已恢复插件目录: crossseed
+【INFO】2026-05-24 17:51:49,416 - system.py - 已恢复插件目录: customhosts
+【INFO】2026-05-24 17:51:49,416 - system.py - 已恢复插件目录: customindexer
+【INFO】2026-05-24 17:51:49,416 - system.py - 已恢复插件目录: customsites
+【INFO】2026-05-24 17:51:49,417 - system.py - 已恢复插件目录: dailyword
+【INFO】2026-05-24 17:51:49,417 - system.py - 已恢复插件目录: dingdingmsg
+【INFO】2026-05-24 17:51:49,417 - system.py - 已恢复插件目录: doubanrank
+【INFO】2026-05-24 17:51:49,417 - system.py - 已恢复插件目录: doubansync
+【INFO】2026-05-24 17:51:49,417 - system.py - 已恢复插件目录: downloadingmsg
+【INFO】2026-05-24 17:51:49,417 - system.py - 已恢复插件目录: downloadsitetag
+【INFO】2026-05-24 17:51:49,417 - system.py - 已恢复插件目录: dynamicwechat
+【INFO】2026-05-24 17:51:49,417 - system.py - 已恢复插件目录: episodegroupmeta
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: feishumsg
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: ffmpegthumb
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: gotifymsg
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: historytov2
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: imdbsource
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: invitessignin
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: ipdetect
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: iyuuauth
+【INFO】2026-05-24 17:51:49,418 - system.py - 已恢复插件目录: iyuuautoseed
+【INFO】2026-05-24 17:51:49,419 - system.py - 已恢复插件目录: iyuumsg
+【INFO】2026-05-24 17:51:49,419 - system.py - 已恢复插件目录: lexiannot
+【INFO】2026-05-24 17:51:49,419 - system.py - 已恢复插件目录: libraryscraper
+【INFO】2026-05-24 17:51:49,419 - system.py - 已恢复插件目录: linkmonitor
+【INFO】2026-05-24 17:51:50,445 - system.py - 已恢复插件目录: mediaservermsg
+【INFO】2026-05-24 17:51:50,445 - system.py - 已恢复插件目录: mediaserverrefresh
+【INFO】2026-05-24 17:51:50,446 - system.py - 已恢复插件目录: meowmsg
+【INFO】2026-05-24 17:51:50,446 - system.py - 已恢复插件目录: moviepilotupdatenotify
+【INFO】2026-05-24 17:51:50,446 - system.py - 已恢复插件目录: mpserverstatus
+【INFO】2026-05-24 17:51:50,447 - system.py - 已恢复插件目录: multiclass
+【INFO】2026-05-24 17:51:50,447 - system.py - 已恢复插件目录: neodbsync
+【INFO】2026-05-24 17:51:50,447 - system.py - 已恢复插件目录: ntfymsg
+【INFO】2026-05-24 17:51:50,447 - system.py - 已恢复插件目录: personmeta
+【INFO】2026-05-24 17:51:50,447 - system.py - 已恢复插件目录: playletcategory
+【INFO】2026-05-24 17:51:50,449 - system.py - 已恢复插件目录: pushdeermsg
+【INFO】2026-05-24 17:51:50,461 - system.py - 已恢复插件目录: pushplusmsg
+【INFO】2026-05-24 17:51:50,461 - system.py - 已恢复插件目录: qbcommand
+【INFO】2026-05-24 17:51:50,461 - system.py - 已恢复插件目录: remoteidentifiers
+【INFO】2026-05-24 17:51:50,461 - system.py - 已恢复插件目录: removelink
+【INFO】2026-05-24 17:51:50,461 - system.py - 已恢复插件目录: rsssubscribe
+【INFO】2026-05-24 17:51:50,462 - system.py - 已恢复插件目录: siterefresh
+【INFO】2026-05-24 17:51:50,462 - system.py - 已恢复插件目录: sitestatistic
+【INFO】2026-05-24 17:51:50,462 - system.py - 已恢复插件目录: speedlimiter
+【INFO】2026-05-24 17:51:50,462 - system.py - 已恢复插件目录: subscribeclear
+【INFO】2026-05-24 17:51:50,462 - system.py - 已恢复插件目录: synccookiecloud
+【INFO】2026-05-24 17:51:50,462 - system.py - 已恢复插件目录: tmdbwallpaper
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: tobypasstrackers
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: torrentremover
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: torrenttransfer
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: trackereditor
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: trendingshow
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: tvdbdiscover
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: webhook
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: workwechatmsg
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: wxpushermsg
+【INFO】2026-05-24 17:51:50,463 - system.py - 已恢复插件目录: zvideohelper
+【INFO】2026-05-24 17:51:50,464 - system.py - 插件恢复完成，共恢复 74 个项目
+【INFO】2026-05-24 17:51:50,464 - system.py - 已删除插件备份目录: /config/plugins_backup
+【INFO】2026-05-24 17:51:50,464 - transfer.py - 启动文件整理线程 1 ...
+【INFO】2026-05-24 17:51:50,464 - monitor.py - 未找到任何目录监控配置
+【INFO】2026-05-24 17:51:50,464 - system.py - 已备份插件目录: agentresourceofficer
+【INFO】2026-05-24 17:51:50,464 - system.py - 已备份插件目录: airecognizerenhancer
+【INFO】2026-05-24 17:51:50,464 - system.py - 已备份插件目录: apprisemsg
+【INFO】2026-05-24 17:51:50,464 - system.py - 已备份插件目录: autoauction
+【INFO】2026-05-24 17:51:50,464 - system.py - 已备份插件目录: autoclean
+【INFO】2026-05-24 17:51:50,464 - system.py - 已备份插件目录: autosignin
+【INFO】2026-05-24 17:51:50,473 - system.py - 已备份插件目录: autosubv2
+【INFO】2026-05-24 17:51:50,473 - system.py - 已备份插件目录: bangumicoll
+【INFO】2026-05-24 17:51:50,474 - system.py - 已备份插件目录: barkmsg
+【INFO】2026-05-24 17:51:50,475 - system.py - 已备份插件目录: brushflow
+【INFO】2026-05-24 17:51:50,475 - system.py - 已备份插件目录: bugreporter
+【INFO】2026-05-24 17:51:50,475 - system.py - 已备份插件目录: categoryeditor
+【INFO】2026-05-24 17:51:50,476 - system.py - 已备份插件目录: chatgpt
+【INFO】2026-05-24 17:51:50,476 - system.py - 已备份插件目录: chinesesubfinder
+【INFO】2026-05-24 17:51:51,035 - system.py - 已备份插件目录: clashruleprovider
+【INFO】2026-05-24 17:51:51,040 - system.py - 已备份插件目录: cleaninvalidplugin
+【INFO】2026-05-24 17:51:51,040 - system.py - 已备份插件目录: cleaninvalidseed
+【INFO】2026-05-24 17:51:51,040 - system.py - 已备份插件目录: cloudflarespeedtest
+【INFO】2026-05-24 17:51:51,040 - system.py - 已备份插件目录: contractcheck
+【INFO】2026-05-24 17:51:51,040 - system.py - 已备份插件目录: crossseed
+【INFO】2026-05-24 17:51:51,040 - system.py - 已备份插件目录: customhosts
+【INFO】2026-05-24 17:51:51,041 - system.py - 已备份插件目录: customindexer
+【INFO】2026-05-24 17:51:51,041 - system.py - 已备份插件目录: customsites
+【INFO】2026-05-24 17:51:51,041 - system.py - 已备份插件目录: dailysummary
+【INFO】2026-05-24 17:51:51,041 - system.py - 已备份插件目录: dailyword
+【INFO】2026-05-24 17:51:51,041 - system.py - 已备份插件目录: dingdingmsg
+【INFO】2026-05-24 17:51:51,041 - system.py - 已备份插件目录: doubanrank
+【INFO】2026-05-24 17:51:51,041 - system.py - 已备份插件目录: doubansync
+【INFO】2026-05-24 17:51:51,041 - system.py - 已备份插件目录: downloadingmsg
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: downloadsitetag
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: dynamicwechat
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: episodegroupmeta
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: feishucommandbridgelong
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: feishumsg
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: ffmpegthumb
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: gotifymsg
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: hdhiveopenapi
+【INFO】2026-05-24 17:51:51,042 - system.py - 已备份插件目录: historytov2
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: imdbsource
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: invitessignin
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: ipdetect
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: iyuuauth
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: iyuuautoseed
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: iyuumsg
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: lexiannot
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: libraryscraper
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: linkmonitor
+【INFO】2026-05-24 17:51:51,043 - system.py - 已备份插件目录: mediaservermsg
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: mediaserverrefresh
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: meowmsg
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: moviepilotupdatenotify
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: mpserverstatus
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: multiclass
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: neodbsync
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: ntfymsg
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: personmeta
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: playletcategory
+【INFO】2026-05-24 17:51:51,044 - system.py - 已备份插件目录: pushdeermsg
+【INFO】2026-05-24 17:51:51,045 - system.py - 已备份插件目录: pushplusmsg
+【INFO】2026-05-24 17:51:51,106 - system.py - 已备份插件目录: qbcommand
+【INFO】2026-05-24 17:51:51,106 - system.py - 已备份插件目录: quarksharesaver
+【INFO】2026-05-24 17:51:51,106 - system.py - 已备份插件目录: remoteidentifiers
+【INFO】2026-05-24 17:51:51,106 - system.py - 已备份插件目录: removelink
+【INFO】2026-05-24 17:51:51,106 - system.py - 已备份插件目录: rsssubscribe
+【INFO】2026-05-24 17:51:53,687 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 17:51:54,108 - system.py - 已备份插件目录: siterefresh
+【INFO】2026-05-24 17:51:54,108 - system.py - 已备份插件目录: sitestatistic
+【INFO】2026-05-24 17:51:54,108 - system.py - 已备份插件目录: speedlimiter
+【INFO】2026-05-24 17:51:54,108 - system.py - 已备份插件目录: subscribeclear
+【INFO】2026-05-24 17:51:54,108 - system.py - 已备份插件目录: synccookiecloud
+【INFO】2026-05-24 17:51:54,108 - system.py - 已备份插件目录: tmdbwallpaper
+【INFO】2026-05-24 17:51:54,108 - system.py - 已备份插件目录: tobypasstrackers
+【INFO】2026-05-24 17:51:54,108 - system.py - 已备份插件目录: torrentremover
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: torrenttransfer
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: trackereditor
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: trendingshow
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: tvdbdiscover
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: tvfirstwatch
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: webhook
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: wechatclawbot
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: workwechatmsg
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: wxpushermsg
+【INFO】2026-05-24 17:51:54,109 - system.py - 已备份插件目录: zvideohelper
+【INFO】2026-05-24 17:51:54,110 - system.py - 已备份插件目录: cloudlinkmonitor
+【INFO】2026-05-24 17:51:54,110 - system.py - 插件备份完成，备份位置: /config/plugins_backup
+【INFO】2026-05-24 17:51:54,110 - scheduler.py - 正在停止定时任务...
+【ERROR】2026-05-24 17:52:31,278 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 17:52:33,115 - scheduler.py - 定时任务停止完成
+【INFO】2026-05-24 17:52:33,115 - plugin.py - 正在停止所有插件...
+【INFO】2026-05-24 17:52:33,115 - plugin.py - 插件停止完成
+【INFO】2026-05-24 17:52:33,115 - plugin.py - 未启用插件文件修改监测，无需停止
+【INFO】2026-05-24 17:52:33,115 - module.py - 正在停止所有模块...
+【INFO】2026-05-24 17:52:33,116 - thetvdb - TheTvDbModule 停止。正在清除 TVDB 会话。
+【INFO】2026-05-24 17:52:33,116 - module.py - 所有模块停止完成
+【INFO】2026-05-24 17:52:33,116 - event.py - 正在停止事件处理...
+【INFO】2026-05-24 17:52:56,455 - factory.py - 成功创建 78 个MoviePilot工具
+【INFO】2026-05-24 17:52:56,460 - manager.py - 成功加载 78 个工具
+【INFO】2026-05-24 17:52:59,467 - modules_initializer.py - 认证资源版本：2.4.8
+【INFO】2026-05-24 17:52:59,467 - modules_initializer.py - 站点资源版本：2.3.12
+【INFO】2026-05-24 17:52:59,467 - resource.py - 开始检测资源包版本...
+【INFO】2026-05-24 17:52:59,467 - resource.py - 最新资源包版本：v150
+【INFO】2026-05-24 17:52:59,467 - resource.py - 所有资源已最新，无需更新
+【INFO】2026-05-24 17:52:59,467 - modules_initializer.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！
+【INFO】2026-05-24 17:53:08,485 - category.py - 已加载二级分类策略 category.yaml
+【INFO】2026-05-24 17:53:08,485 - subscribe.py - 当前用户UUID: 92ea784f0110e40a87382be940fad6bc3a2ef3e02e6b002cb7292ff9ef8c973b
+【INFO】2026-05-24 17:53:08,485 - agent_initializer.py - AI智能体功能未启用
+【INFO】2026-05-24 17:53:08,485 - chain - NotificationType.Manual 的消息已设置发送给管理员
+【INFO】2026-05-24 17:53:08,485 - message.py - 发送消息：{'message': Notification(channel=None, source=None, mtype=<NotificationType.Manual: '手动处理'>, ctype=None, title='MoviePilot用户认证', text='用户认证失败，站点相关功能将无法使用！', image=None, voice_path=None, file_path=None, file_name=None, voice_caption=None, link=None, userid=None, username=None, date=None, action=1, targets={}, buttons=None, original_message_id=None, original_chat_id=None, disable_web_page_preview=None), 'current_time': '2026-05-24 17:53:08'}
+【INFO】2026-05-24 17:53:08,718 - system.py - 已恢复插件目录: agentresourceofficer
+【INFO】2026-05-24 17:53:08,719 - system.py - 已恢复插件目录: airecognizerenhancer
+【INFO】2026-05-24 17:53:08,719 - system.py - 已恢复插件目录: apprisemsg
+【INFO】2026-05-24 17:53:08,719 - system.py - 已恢复插件目录: autoauction
+【INFO】2026-05-24 17:53:08,719 - system.py - 已恢复插件目录: autoclean
+【INFO】2026-05-24 17:53:08,719 - system.py - 已恢复插件目录: autosignin
+【INFO】2026-05-24 17:53:08,719 - system.py - 已恢复插件目录: autosubv2
+【INFO】2026-05-24 17:53:08,719 - system.py - 已恢复插件目录: bangumicoll
+【INFO】2026-05-24 17:53:08,720 - system.py - 已恢复插件目录: barkmsg
+【INFO】2026-05-24 17:53:08,720 - system.py - 已恢复插件目录: brushflow
+【INFO】2026-05-24 17:53:08,720 - system.py - 已恢复插件目录: bugreporter
+【INFO】2026-05-24 17:53:08,720 - system.py - 已恢复插件目录: categoryeditor
+【INFO】2026-05-24 17:53:08,720 - system.py - 已恢复插件目录: chatgpt
+【INFO】2026-05-24 17:53:08,720 - system.py - 已恢复插件目录: chinesesubfinder
+【INFO】2026-05-24 17:53:08,720 - system.py - 已恢复插件目录: clashruleprovider
+【INFO】2026-05-24 17:53:08,720 - system.py - 已恢复插件目录: cleaninvalidplugin
+【INFO】2026-05-24 17:53:08,721 - system.py - 已恢复插件目录: cleaninvalidseed
+【INFO】2026-05-24 17:53:08,721 - system.py - 已恢复插件目录: cloudflarespeedtest
+【INFO】2026-05-24 17:53:08,721 - system.py - 已恢复插件目录: contractcheck
+【INFO】2026-05-24 17:53:08,721 - system.py - 已恢复插件目录: crossseed
+【INFO】2026-05-24 17:53:08,721 - system.py - 已恢复插件目录: customhosts
+【INFO】2026-05-24 17:53:08,721 - system.py - 已恢复插件目录: customindexer
+【INFO】2026-05-24 17:53:08,721 - system.py - 已恢复插件目录: customsites
+【INFO】2026-05-24 17:53:08,722 - system.py - 已恢复插件目录: dailysummary
+【INFO】2026-05-24 17:53:08,722 - system.py - 已恢复插件目录: dailyword
+【INFO】2026-05-24 17:53:08,722 - system.py - 已恢复插件目录: dingdingmsg
+【INFO】2026-05-24 17:53:08,722 - system.py - 已恢复插件目录: doubanrank
+【INFO】2026-05-24 17:53:08,722 - system.py - 已恢复插件目录: doubansync
+【INFO】2026-05-24 17:53:08,722 - system.py - 已恢复插件目录: downloadingmsg
+【INFO】2026-05-24 17:53:08,722 - system.py - 已恢复插件目录: downloadsitetag
+【INFO】2026-05-24 17:53:08,722 - system.py - 已恢复插件目录: dynamicwechat
+【INFO】2026-05-24 17:53:08,723 - system.py - 已恢复插件目录: episodegroupmeta
+【INFO】2026-05-24 17:53:08,723 - system.py - 已恢复插件目录: feishucommandbridgelong
+【INFO】2026-05-24 17:53:08,723 - system.py - 已恢复插件目录: feishumsg
+【INFO】2026-05-24 17:53:08,723 - system.py - 已恢复插件目录: ffmpegthumb
+【INFO】2026-05-24 17:53:08,723 - system.py - 已恢复插件目录: gotifymsg
+【INFO】2026-05-24 17:53:08,723 - system.py - 已恢复插件目录: hdhiveopenapi
+【INFO】2026-05-24 17:53:08,723 - system.py - 已恢复插件目录: historytov2
+【INFO】2026-05-24 17:53:08,723 - system.py - 已恢复插件目录: imdbsource
+【INFO】2026-05-24 17:53:08,724 - system.py - 已恢复插件目录: invitessignin
+【INFO】2026-05-24 17:53:08,724 - system.py - 已恢复插件目录: ipdetect
+【INFO】2026-05-24 17:53:08,724 - system.py - 已恢复插件目录: iyuuauth
+【INFO】2026-05-24 17:53:08,724 - system.py - 已恢复插件目录: iyuuautoseed
+【INFO】2026-05-24 17:53:08,724 - system.py - 已恢复插件目录: iyuumsg
+【INFO】2026-05-24 17:53:08,724 - system.py - 已恢复插件目录: lexiannot
+【INFO】2026-05-24 17:53:08,724 - system.py - 已恢复插件目录: libraryscraper
+【INFO】2026-05-24 17:53:08,724 - system.py - 已恢复插件目录: linkmonitor
+【INFO】2026-05-24 17:53:08,725 - system.py - 已恢复插件目录: mediaservermsg
+【INFO】2026-05-24 17:53:08,725 - system.py - 已恢复插件目录: mediaserverrefresh
+【INFO】2026-05-24 17:53:08,725 - system.py - 已恢复插件目录: meowmsg
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: moviepilotupdatenotify
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: mpserverstatus
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: multiclass
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: neodbsync
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: ntfymsg
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: personmeta
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: playletcategory
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: pushdeermsg
+【INFO】2026-05-24 17:53:11,727 - system.py - 已恢复插件目录: pushplusmsg
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: qbcommand
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: quarksharesaver
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: remoteidentifiers
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: removelink
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: rsssubscribe
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: siterefresh
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: sitestatistic
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: speedlimiter
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: subscribeclear
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: synccookiecloud
+【INFO】2026-05-24 17:53:11,728 - system.py - 已恢复插件目录: tmdbwallpaper
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: tobypasstrackers
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: torrentremover
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: torrenttransfer
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: trackereditor
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: trendingshow
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: tvdbdiscover
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: tvfirstwatch
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: webhook
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: wechatclawbot
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: workwechatmsg
+【INFO】2026-05-24 17:53:11,729 - system.py - 已恢复插件目录: wxpushermsg
+【INFO】2026-05-24 17:53:11,730 - system.py - 已恢复插件目录: zvideohelper
+【INFO】2026-05-24 17:53:11,730 - system.py - 已恢复插件目录: cloudlinkmonitor
+【INFO】2026-05-24 17:53:11,730 - system.py - 插件恢复完成，共恢复 83 个项目
+【INFO】2026-05-24 17:53:11,730 - system.py - 已删除插件备份目录: /config/plugins_backup
+【INFO】2026-05-24 17:53:11,730 - transfer.py - 启动文件整理线程 1 ...
+【INFO】2026-05-24 17:53:11,730 - monitor.py - 未找到任何目录监控配置
+【INFO】2026-05-24 17:53:12,264 - plugin.py - 获取到 228 个线上插件
+【ERROR】2026-05-24 17:53:50,296 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【ERROR】2026-05-24 17:53:54,296 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【ERROR】2026-05-24 17:54:34,323 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 17:55:11,744 - subscribe.py - 开始预缓存订阅日历 ...
+【INFO】2026-05-24 17:55:11,744 - subscribe.py - 订阅日历预缓存完成
+【ERROR】2026-05-24 17:55:14,368 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 17:55:15,676 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 17:55:16,478 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 17:55:20,626 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 17:55:21,197 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 17:55:25,222 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 17:55:25,748 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 17:55:28,584 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 17:55:29,165 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 17:55:32,102 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 17:55:32,437 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 17:57:07,778 - user.py - 密码认证失败，用户 admin 的密码验证不通过
+【ERROR】2026-05-24 17:57:37,438 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 17:58:09,241 - site.py - 开始同步CookieCloud站点 ...
+【ERROR】2026-05-24 17:58:09,248 - site.py - CookieCloud同步失败：CookieCloud请求失败，请检查服务器地址、用户KEY及加密密码是否正确
+【INFO】2026-05-24 18:01:31,569 - user.py - 用户 admin 通过密码认证成功
+【INFO】2026-05-24 18:01:41,794 - plugin.py - 获取到 228 个线上插件
+【ERROR】2026-05-24 18:02:05,798 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 18:03:09,257 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 18:03:09,258 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 1 次
+【INFO】2026-05-24 18:03:35,812 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 18:04:24,040 - plugin.py - 已刷新插件备份: IyuuAuth
+【INFO】2026-05-24 18:04:24,078 - plugin.py - 正在停止插件 IyuuAuth...
+【INFO】2026-05-24 18:04:24,091 - plugin.py - 插件停止完成
+【INFO】2026-05-24 18:04:24,113 - plugin.py - 加载插件：IyuuAuth 版本：1.2
+【INFO】2026-05-24 18:04:26,819 - plugin.py - 获取到 228 个线上插件
+【WARNING】2026-05-24 18:04:56,823 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/Hqyel/MoviePilot-Plugins/main/icons/nullbr.png
+【INFO】2026-05-24 18:13:09,254 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 18:13:09,255 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 2 次
+【INFO】2026-05-24 18:23:09,256 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 18:23:09,259 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 3 次
+【INFO】2026-05-24 18:23:09,832 - scheduler.py - 主动内存回收完成，回收对象数: 1833，释放内存: 0.99 MB
+【INFO】2026-05-24 18:23:11,958 - plugin.py - 获取到 228 个线上插件
+【ERROR】2026-05-24 18:23:50,319 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 18:33:09,262 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 18:33:09,263 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 4 次
+【INFO】2026-05-24 18:43:09,263 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 18:43:09,267 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 5 次
+【INFO】2026-05-24 18:53:09,262 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 18:53:09,263 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 6 次
+【INFO】2026-05-24 18:53:09,805 - scheduler.py - 主动内存回收完成，回收对象数: 188，释放内存: 0.00 MB
+【INFO】2026-05-24 18:53:12,178 - plugin.py - 获取到 228 个线上插件
+【ERROR】2026-05-24 18:53:50,290 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 19:03:09,261 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 19:03:09,262 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 7 次
+【INFO】2026-05-24 19:13:09,255 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 19:13:09,261 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 8 次
+【INFO】2026-05-24 19:23:09,254 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 19:23:09,262 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 9 次
+【INFO】2026-05-24 19:23:09,764 - scheduler.py - 主动内存回收完成，回收对象数: 2331，释放内存: 0.00 MB
+【INFO】2026-05-24 19:23:12,761 - plugin.py - 获取到 228 个线上插件
+【ERROR】2026-05-24 19:23:50,303 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 19:33:09,254 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 19:33:09,255 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 10 次
+【INFO】2026-05-24 19:43:09,255 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 19:43:09,255 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 11 次
+【INFO】2026-05-24 19:53:09,256 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 19:53:09,264 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 12 次
+【INFO】2026-05-24 19:53:09,906 - scheduler.py - 主动内存回收完成，回收对象数: 165，释放内存: -0.01 MB
+【INFO】2026-05-24 19:53:12,990 - plugin.py - 获取到 228 个线上插件
+【ERROR】2026-05-24 19:53:50,302 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 20:03:09,258 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 20:03:09,260 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 13 次
+【INFO】2026-05-24 20:13:09,257 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 20:13:09,258 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 14 次
+【INFO】2026-05-24 20:23:09,254 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 20:23:09,268 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 15 次
+【INFO】2026-05-24 20:23:09,880 - scheduler.py - 主动内存回收完成，回收对象数: 217，释放内存: -0.00 MB
+【INFO】2026-05-24 20:23:13,213 - plugin.py - 获取到 228 个线上插件
+【ERROR】2026-05-24 20:23:50,308 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 20:33:09,254 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 20:33:09,262 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 16 次
+【INFO】2026-05-24 20:43:09,255 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 20:43:09,263 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 17 次
+【INFO】2026-05-24 20:50:44,231 - mixins.py - 配置 Downloaders 变更，重载 Qbittorrent...
+【INFO】2026-05-24 20:50:44,234 - mixins.py - 配置 Downloaders 变更，重载 Rtorrent...
+【INFO】2026-05-24 20:50:44,237 - mixins.py - 配置 Downloaders 变更，重载 Transmission...
+【INFO】2026-05-24 20:51:18,944 - mixins.py - 配置 MediaServers 变更，重载 Emby...
+【INFO】2026-05-24 20:51:18,946 - mixins.py - 配置 MediaServers 变更，重载 Jellyfin...
+【INFO】2026-05-24 20:51:18,948 - mixins.py - 配置 MediaServers 变更，重载 Plex...
+【INFO】2026-05-24 20:51:18,954 - mixins.py - 配置 MediaServers 变更，重载 飞牛影视...
+【INFO】2026-05-24 20:51:18,955 - mixins.py - 配置 MediaServers 变更，重载 绿联影视...
+【INFO】2026-05-24 20:51:18,957 - mixins.py - 配置 MediaServers 变更，重载 极影视...
+【INFO】2026-05-24 20:51:26,056 - mixins.py - 配置 MediaServers 变更，重载 Emby...
+【INFO】2026-05-24 20:51:26,061 - mixins.py - 配置 MediaServers 变更，重载 Jellyfin...
+【INFO】2026-05-24 20:51:26,062 - mixins.py - 配置 MediaServers 变更，重载 Plex...
+【INFO】2026-05-24 20:51:26,073 - mixins.py - 配置 MediaServers 变更，重载 飞牛影视...
+【INFO】2026-05-24 20:51:26,075 - mixins.py - 配置 MediaServers 变更，重载 绿联影视...
+【INFO】2026-05-24 20:51:26,083 - mixins.py - 配置 MediaServers 变更，重载 极影视...
+【INFO】2026-05-24 20:51:34,218 - mixins.py - 配置 Downloaders 变更，重载 Qbittorrent...
+【INFO】2026-05-24 20:51:34,219 - mixins.py - 配置 Downloaders 变更，重载 Rtorrent...
+【INFO】2026-05-24 20:51:34,222 - qbittorrent.py - 正在连接 qbittorrent：http://127.0.0.1:19990
+【INFO】2026-05-24 20:51:34,225 - mixins.py - 配置 Downloaders 变更，重载 Transmission...
+【INFO】2026-05-24 20:51:42,757 - mixins.py - 配置 MediaServers 变更，重载 Emby...
+【INFO】2026-05-24 20:51:42,761 - mixins.py - 配置 MediaServers 变更，重载 Jellyfin...
+【INFO】2026-05-24 20:51:42,763 - mixins.py - 配置 MediaServers 变更，重载 Plex...
+【INFO】2026-05-24 20:51:42,769 - mixins.py - 配置 MediaServers 变更，重载 飞牛影视...
+【INFO】2026-05-24 20:51:42,770 - mixins.py - 配置 MediaServers 变更，重载 绿联影视...
+【INFO】2026-05-24 20:51:42,771 - mixins.py - 配置 MediaServers 变更，重载 极影视...
+【INFO】2026-05-24 20:53:09,262 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 20:53:09,262 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 18 次
+【INFO】2026-05-24 20:53:09,818 - scheduler.py - 主动内存回收完成，回收对象数: 165，释放内存: -0.03 MB
+【INFO】2026-05-24 20:53:13,438 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 20:53:49,231 - mixins.py - 配置 Directories 变更，重载 目录监控...
+【INFO】2026-05-24 20:53:49,233 - monitor.py - 找到 1 个目录监控配置
+【INFO】2026-05-24 20:53:49,234 - monitor.py - 正在启动本地目录监控: /media/下载
+【INFO】2026-05-24 20:53:49,235 - monitor.py - *** 重要提示：目录监控只处理新增和修改的文件，不会处理监控启动前已存在的文件 ***
+【INFO】2026-05-24 20:53:49,238 - monitor.py - 监控目录 /media/下载 包含约 0 个文件
+【INFO】2026-05-24 20:53:49,271 - monitor.py - 监控模式决策: 使用快速模式
+【INFO】2026-05-24 20:53:49,272 - monitor.py - 使用快速模式监控 /media/下载
+【INFO】2026-05-24 20:53:49,273 - monitor.py - 系统监控资源使用率: 0.0% (0/216508)
+【INFO】2026-05-24 20:53:49,276 - monitor.py - ✓ 本地目录监控已启动: /media/下载 [快速模式]
+【INFO】2026-05-24 20:53:49,277 - monitor.py - 目录监控启动完成: 本地监控 1 个，远程监控 0 个
+【ERROR】2026-05-24 20:53:50,307 - tmdbapi.py - 无法连接TheMovieDb，请检查网络连接！
+【INFO】2026-05-24 20:59:19,490 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:00:25,498 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:01:55,509 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:03:09,255 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 21:03:09,262 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 19 次
+【WARNING】2026-05-24 21:04:19,527 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/honue/MoviePilot-Plugins/main/icons/clouddrive.png
+【WARNING】2026-05-24 21:04:19,527 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/jxxghp/MoviePilot-Plugins/refs/heads/main/icons/ffmpeg.png
+【WARNING】2026-05-24 21:04:19,527 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/KoWming/MoviePilot-Plugins/main/icons/AutoSpeed.png
+【WARNING】2026-05-24 21:04:19,527 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/KoWming/MoviePilot-Plugins/main/icons/GuangyaDisk.png
+【WARNING】2026-05-24 21:04:19,527 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/KoWming/MoviePilot-Plugins/main/icons/sun-panel.png
+【WARNING】2026-05-24 21:04:19,528 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/Hqyel/MoviePilot-Plugins/main/icons/nullbr.png
+【INFO】2026-05-24 21:06:22,723 - plugin.py - 已刷新插件备份: CleanInvalidSeed
+【INFO】2026-05-24 21:06:22,763 - plugin.py - 正在停止插件 CleanInvalidSeed...
+【INFO】2026-05-24 21:06:22,773 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:06:22,826 - plugin.py - 加载插件：CleanInvalidSeed 版本：2.1
+【INFO】2026-05-24 21:06:25,556 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:07:21,011 - plugin.py - 已刷新插件备份: CloudLinkMonitor
+【INFO】2026-05-24 21:07:21,049 - plugin.py - 正在停止插件 CloudLinkMonitor...
+【INFO】2026-05-24 21:07:21,060 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:07:21,081 - plugin.py - 加载插件：CloudLinkMonitor 版本：2.5.9
+【INFO】2026-05-24 21:07:22,564 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:08:12,030 - plugin.py - 已刷新插件备份: MediaServerRefresh
+【INFO】2026-05-24 21:08:12,063 - plugin.py - 正在停止插件 MediaServerRefresh...
+【INFO】2026-05-24 21:08:12,074 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:08:12,083 - plugin.py - 加载插件：MediaServerRefresh 版本：1.3.3
+【INFO】2026-05-24 21:08:13,571 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:08:25,364 - plugin.py - 已刷新插件备份: LibraryScraper
+【INFO】2026-05-24 21:08:25,389 - plugin.py - 正在停止插件 LibraryScraper...
+【INFO】2026-05-24 21:08:25,399 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:08:25,416 - plugin.py - 加载插件：LibraryScraper 版本：2.1.1
+【INFO】2026-05-24 21:08:25,573 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:08:49,576 - plugin.py - CustomHosts 存在依赖，开始尝试安装依赖
+【INFO】2026-05-24 21:08:53,172 - plugin.py - 已刷新插件备份: CustomHosts
+【INFO】2026-05-24 21:08:53,196 - plugin.py - 正在停止插件 CustomHosts...
+【INFO】2026-05-24 21:08:53,208 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:08:53,222 - plugin.py - 加载插件：CustomHosts 版本：1.2.1
+【INFO】2026-05-24 21:08:55,578 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:09:07,580 - plugin.py - CloudflareSpeedTest 存在依赖，开始尝试安装依赖
+【INFO】2026-05-24 21:09:12,650 - plugin.py - 已刷新插件备份: CloudflareSpeedTest
+【INFO】2026-05-24 21:09:12,677 - plugin.py - 正在停止插件 CloudflareSpeedTest...
+【INFO】2026-05-24 21:09:12,688 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:09:12,711 - plugin.py - 加载插件：CloudflareSpeedTest 版本：1.5.1
+【INFO】2026-05-24 21:09:13,585 - plugin.py - 获取到 228 个线上插件
+【WARNING】2026-05-24 21:09:58,591 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/KoWming/MoviePilot-Plugins/main/icons/AutoSpeed.png
+【INFO】2026-05-24 21:12:31,611 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:13:09,254 - scheduler.py - 用户未认证，正在尝试认证...
+【ERROR】2026-05-24 21:13:09,255 - scheduler.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！，共失败 20 次
+【INFO】2026-05-24 21:13:16,627 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:14:19,636 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:14:34,639 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:14:46,641 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:15:13,645 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:15:37,648 - plugin.py - 获取到 228 个线上插件
+【WARNING】2026-05-24 21:15:40,649 - log.py - Failed to fetch image from URL: http://127.0.0.1:18096/Items/3/Images/Primary
+【WARNING】2026-05-24 21:15:40,649 - log.py - Failed to fetch image from URL: http://127.0.0.1:18096/Items/5/Images/Primary
+【INFO】2026-05-24 21:17:37,104 - system.py - 已备份插件目录: agentresourceofficer
+【INFO】2026-05-24 21:17:37,106 - system.py - 已备份插件目录: airecognizerenhancer
+【INFO】2026-05-24 21:17:37,106 - system.py - 已备份插件目录: apprisemsg
+【INFO】2026-05-24 21:17:37,107 - system.py - 已备份插件目录: autoauction
+【INFO】2026-05-24 21:17:37,107 - system.py - 已备份插件目录: autoclean
+【INFO】2026-05-24 21:17:37,107 - system.py - 已备份插件目录: autosignin
+【INFO】2026-05-24 21:17:37,107 - system.py - 已备份插件目录: autosubv2
+【INFO】2026-05-24 21:17:37,107 - system.py - 已备份插件目录: bangumicoll
+【INFO】2026-05-24 21:17:37,107 - system.py - 已备份插件目录: barkmsg
+【INFO】2026-05-24 21:17:37,108 - system.py - 已备份插件目录: brushflow
+【INFO】2026-05-24 21:17:37,108 - system.py - 已备份插件目录: bugreporter
+【INFO】2026-05-24 21:17:37,108 - system.py - 已备份插件目录: categoryeditor
+【INFO】2026-05-24 21:17:37,108 - system.py - 已备份插件目录: chatgpt
+【INFO】2026-05-24 21:17:37,109 - system.py - 已备份插件目录: chinesesubfinder
+【INFO】2026-05-24 21:17:37,109 - system.py - 已备份插件目录: clashruleprovider
+【INFO】2026-05-24 21:17:37,109 - system.py - 已备份插件目录: cleaninvalidplugin
+【INFO】2026-05-24 21:17:37,109 - system.py - 已备份插件目录: contractcheck
+【INFO】2026-05-24 21:17:37,109 - system.py - 已备份插件目录: crossseed
+【INFO】2026-05-24 21:17:37,109 - system.py - 已备份插件目录: customindexer
+【INFO】2026-05-24 21:17:37,109 - system.py - 已备份插件目录: customsites
+【INFO】2026-05-24 21:17:37,109 - system.py - 已备份插件目录: dailysummary
+【INFO】2026-05-24 21:17:37,110 - system.py - 已备份插件目录: dailyword
+【INFO】2026-05-24 21:17:37,110 - system.py - 已备份插件目录: dingdingmsg
+【INFO】2026-05-24 21:17:37,110 - system.py - 已备份插件目录: doubanrank
+【INFO】2026-05-24 21:17:37,110 - system.py - 已备份插件目录: doubansync
+【INFO】2026-05-24 21:17:37,110 - system.py - 已备份插件目录: downloadingmsg
+【INFO】2026-05-24 21:17:37,110 - system.py - 已备份插件目录: downloadsitetag
+【INFO】2026-05-24 21:17:37,111 - system.py - 已备份插件目录: dynamicwechat
+【INFO】2026-05-24 21:17:37,111 - system.py - 已备份插件目录: episodegroupmeta
+【INFO】2026-05-24 21:17:37,111 - system.py - 已备份插件目录: feishucommandbridgelong
+【INFO】2026-05-24 21:17:37,111 - system.py - 已备份插件目录: feishumsg
+【INFO】2026-05-24 21:17:37,111 - system.py - 已备份插件目录: ffmpegthumb
+【INFO】2026-05-24 21:17:37,111 - system.py - 已备份插件目录: gotifymsg
+【INFO】2026-05-24 21:17:37,111 - system.py - 已备份插件目录: hdhiveopenapi
+【INFO】2026-05-24 21:17:37,111 - system.py - 已备份插件目录: historytov2
+【INFO】2026-05-24 21:17:37,112 - system.py - 已备份插件目录: imdbsource
+【INFO】2026-05-24 21:17:37,112 - system.py - 已备份插件目录: invitessignin
+【INFO】2026-05-24 21:17:37,112 - system.py - 已备份插件目录: ipdetect
+【INFO】2026-05-24 21:17:37,112 - system.py - 已备份插件目录: iyuuautoseed
+【INFO】2026-05-24 21:17:37,112 - system.py - 已备份插件目录: iyuumsg
+【INFO】2026-05-24 21:17:37,112 - system.py - 已备份插件目录: lexiannot
+【INFO】2026-05-24 21:17:37,112 - system.py - 已备份插件目录: linkmonitor
+【INFO】2026-05-24 21:17:37,112 - system.py - 已备份插件目录: mediaservermsg
+【INFO】2026-05-24 21:17:37,113 - system.py - 已备份插件目录: meowmsg
+【INFO】2026-05-24 21:17:37,113 - system.py - 已备份插件目录: moviepilotupdatenotify
+【INFO】2026-05-24 21:17:37,113 - system.py - 已备份插件目录: mpserverstatus
+【INFO】2026-05-24 21:17:37,113 - system.py - 已备份插件目录: multiclass
+【INFO】2026-05-24 21:17:37,113 - system.py - 已备份插件目录: neodbsync
+【INFO】2026-05-24 21:17:37,113 - system.py - 已备份插件目录: ntfymsg
+【INFO】2026-05-24 21:17:37,113 - system.py - 已备份插件目录: personmeta
+【INFO】2026-05-24 21:17:40,116 - system.py - 已备份插件目录: playletcategory
+【INFO】2026-05-24 21:17:40,118 - system.py - 已备份插件目录: pushdeermsg
+【INFO】2026-05-24 21:17:40,118 - system.py - 已备份插件目录: pushplusmsg
+【INFO】2026-05-24 21:17:40,119 - system.py - 已备份插件目录: qbcommand
+【INFO】2026-05-24 21:17:40,120 - system.py - 已备份插件目录: quarksharesaver
+【INFO】2026-05-24 21:17:40,120 - system.py - 已备份插件目录: remoteidentifiers
+【INFO】2026-05-24 21:17:40,121 - system.py - 已备份插件目录: removelink
+【INFO】2026-05-24 21:17:40,121 - system.py - 已备份插件目录: rsssubscribe
+【INFO】2026-05-24 21:17:40,121 - system.py - 已备份插件目录: siterefresh
+【INFO】2026-05-24 21:17:40,121 - system.py - 已备份插件目录: sitestatistic
+【INFO】2026-05-24 21:17:40,123 - system.py - 已备份插件目录: speedlimiter
+【INFO】2026-05-24 21:17:40,123 - system.py - 已备份插件目录: subscribeclear
+【INFO】2026-05-24 21:17:40,123 - system.py - 已备份插件目录: synccookiecloud
+【INFO】2026-05-24 21:17:40,123 - system.py - 已备份插件目录: tmdbwallpaper
+【INFO】2026-05-24 21:17:40,123 - system.py - 已备份插件目录: tobypasstrackers
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: torrentremover
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: torrenttransfer
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: trackereditor
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: trendingshow
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: tvdbdiscover
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: tvfirstwatch
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: webhook
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: wechatclawbot
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: workwechatmsg
+【INFO】2026-05-24 21:17:40,124 - system.py - 已备份插件目录: wxpushermsg
+【INFO】2026-05-24 21:17:40,125 - system.py - 已备份插件目录: zvideohelper
+【INFO】2026-05-24 21:17:40,125 - system.py - 插件备份完成，备份位置: /config/plugins_backup
+【INFO】2026-05-24 21:17:40,125 - monitor.py - 正在停止本地目录监控服务...
+【INFO】2026-05-24 21:17:40,125 - monitor.py - 本地目录监控服务已停止
+【INFO】2026-05-24 21:17:40,126 - scheduler.py - 正在停止定时任务...
+【INFO】2026-05-24 21:17:40,126 - scheduler.py - 定时任务停止完成
+【INFO】2026-05-24 21:17:40,127 - plugin.py - 正在停止所有插件...
+【INFO】2026-05-24 21:17:40,127 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:17:40,127 - plugin.py - 未启用插件文件修改监测，无需停止
+【INFO】2026-05-24 21:17:40,127 - module.py - 正在停止所有模块...
+【INFO】2026-05-24 21:17:40,128 - thetvdb - TheTvDbModule 停止。正在清除 TVDB 会话。
+【INFO】2026-05-24 21:17:40,128 - module.py - 所有模块停止完成
+【INFO】2026-05-24 21:17:40,129 - event.py - 正在停止事件处理...
+【INFO】2026-05-24 21:17:40,129 - event.py - 事件处理停止完成
+【INFO】2026-05-24 21:17:40,131 - display.py - 正在停止虚拟显示...
+【INFO】2026-05-24 21:17:40,131 - display.py - 虚拟显示已停止
+【INFO】2026-05-24 21:17:43,132 - message.py - 正在停止消息队列...
+【INFO】2026-05-24 21:45:51,531 - factory.py - 成功创建 78 个MoviePilot工具
+【INFO】2026-05-24 21:45:51,532 - manager.py - 成功加载 78 个工具
+【INFO】2026-05-24 21:45:54,533 - modules_initializer.py - 认证资源版本：2.4.8
+【INFO】2026-05-24 21:45:54,534 - modules_initializer.py - 站点资源版本：2.3.12
+【INFO】2026-05-24 21:45:54,534 - resource.py - 开始检测资源包版本...
+【INFO】2026-05-24 21:45:54,534 - resource.py - 最新资源包版本：v150
+【INFO】2026-05-24 21:45:54,534 - resource.py - 所有资源已最新，无需更新
+【INFO】2026-05-24 21:45:54,534 - modules_initializer.py - 用户认证失败，站点认证参数未设置，无法自动进行用户认证！
+【INFO】2026-05-24 21:46:06,546 - qbittorrent.py - 正在连接 qbittorrent：http://127.0.0.1:19990
+【INFO】2026-05-24 21:46:06,546 - category.py - 已加载二级分类策略 category.yaml
+【INFO】2026-05-24 21:46:06,546 - subscribe.py - 当前用户UUID: f0d32922dc8b2d8cf842a888a8f431d742c81ef64250b32a6cab6c2707e91208
+【INFO】2026-05-24 21:46:06,546 - agent_initializer.py - AI智能体功能未启用
+【INFO】2026-05-24 21:46:06,546 - chain - NotificationType.Manual 的消息已设置发送给管理员
+【INFO】2026-05-24 21:46:06,546 - message.py - 发送消息：{'message': Notification(channel=None, source=None, mtype=<NotificationType.Manual: '手动处理'>, ctype=None, title='MoviePilot用户认证', text='用户认证失败，站点相关功能将无法使用！', image=None, voice_path=None, file_path=None, file_name=None, voice_caption=None, link=None, userid=None, username=None, date=None, action=1, targets={'nickname': ''}, buttons=None, original_message_id=None, original_chat_id=None, disable_web_page_preview=None), 'current_time': '2026-05-24 21:46:04'}
+【INFO】2026-05-24 21:46:06,594 - system.py - 已删除插件备份目录: /config/plugins_backup
+【INFO】2026-05-24 21:46:06,595 - plugin.py - 加载插件：CleanInvalidSeed 版本：2.1
+【INFO】2026-05-24 21:46:06,595 - plugin.py - 加载插件：CloudLinkMonitor 版本：2.5.9
+【INFO】2026-05-24 21:46:06,595 - plugin.py - 加载插件：LibraryScraper 版本：2.1.1
+【INFO】2026-05-24 21:46:06,595 - plugin.py - 加载插件：CustomHosts 版本：1.2.1
+【INFO】2026-05-24 21:46:06,595 - plugin.py - 加载插件：CloudflareSpeedTest 版本：1.5.1
+【INFO】2026-05-24 21:46:06,595 - plugin.py - 加载插件：MediaServerRefresh 版本：1.3.3
+【INFO】2026-05-24 21:46:06,595 - plugin.py - 加载插件：IyuuAuth 版本：1.2
+【INFO】2026-05-24 21:46:06,595 - monitor.py - 找到 1 个目录监控配置
+【INFO】2026-05-24 21:46:06,595 - monitor.py - 正在启动本地目录监控: /media/下载
+【INFO】2026-05-24 21:46:06,595 - monitor.py - *** 重要提示：目录监控只处理新增和修改的文件，不会处理监控启动前已存在的文件 ***
+【INFO】2026-05-24 21:46:06,596 - monitor.py - 监控目录 /media/下载 包含约 0 个文件
+【INFO】2026-05-24 21:46:06,596 - monitor.py - 监控模式决策: 使用快速模式
+【INFO】2026-05-24 21:46:06,596 - monitor.py - 使用快速模式监控 /media/下载
+【INFO】2026-05-24 21:46:06,596 - monitor.py - 系统监控资源使用率: 0.0% (0/216508)
+【INFO】2026-05-24 21:46:06,596 - monitor.py - ✓ 本地目录监控已启动: /media/下载 [快速模式]
+【INFO】2026-05-24 21:46:06,596 - monitor.py - 目录监控启动完成: 本地监控 1 个，远程监控 0 个
+【INFO】2026-05-24 21:46:12,920 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 21:46:13,742 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 21:46:15,570 - plugin.py - 获取到 228 个线上插件
+【INFO】2026-05-24 21:46:19,928 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 21:46:20,607 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 21:46:26,055 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 21:46:26,621 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 21:46:27,854 - user.py - 用户 admin 通过密码认证成功
+【WARNING】2026-05-24 21:46:30,600 - log.py - Failed to fetch image from URL: http://127.0.0.1:18096/Items/5/Images/Primary
+【WARNING】2026-05-24 21:46:30,601 - log.py - Failed to fetch image from URL: http://127.0.0.1:18096/Items/3/Images/Primary
+【INFO】2026-05-24 21:46:31,809 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 21:46:32,441 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 21:46:36,891 - douban - 开始发现豆瓣 电影 ...
+【INFO】2026-05-24 21:46:37,387 - douban - 开始发现豆瓣 电视剧 ...
+【INFO】2026-05-24 21:46:59,836 - plugin.py - 正在停止所有插件...
+【INFO】2026-05-24 21:46:59,849 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:46:59,864 - plugin.py - 加载插件：CleanInvalidSeed 版本：2.1
+【INFO】2026-05-24 21:46:59,865 - plugin.py - 加载插件：CloudLinkMonitor 版本：2.5.9
+【INFO】2026-05-24 21:46:59,866 - plugin.py - 加载插件：LibraryScraper 版本：2.1.1
+【INFO】2026-05-24 21:46:59,873 - plugin.py - 加载插件：CustomHosts 版本：1.2.1
+【INFO】2026-05-24 21:46:59,873 - plugin.py - 加载插件：CloudflareSpeedTest 版本：1.5.1
+【INFO】2026-05-24 21:46:59,874 - plugin.py - 加载插件：MediaServerRefresh 版本：1.3.3
+【INFO】2026-05-24 21:46:59,875 - plugin.py - 加载插件：IyuuAuth 版本：1.2
+【INFO】2026-05-24 21:47:14,220 - user.py - 用户 admin 通过密码认证成功
+【WARNING】2026-05-24 21:47:15,607 - log.py - Failed to fetch image from URL: http://127.0.0.1:18096/Items/3/Images/Primary
+【WARNING】2026-05-24 21:47:15,607 - log.py - Failed to fetch image from URL: http://127.0.0.1:18096/Items/5/Images/Primary
+【INFO】2026-05-24 21:47:24,609 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:47:33,611 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:47:36,611 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:48:06,012 - plugin.py - 已刷新插件备份: AutoSignIn
+【INFO】2026-05-24 21:48:06,056 - plugin.py - 正在停止插件 AutoSignIn...
+【INFO】2026-05-24 21:48:06,072 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:48:06,134 - plugin.py - 加载插件：AutoSignIn 版本：2.8.2
+【INFO】2026-05-24 21:48:06,616 - subscribe.py - 开始预缓存订阅日历 ...
+【INFO】2026-05-24 21:48:06,616 - subscribe.py - 订阅日历预缓存完成
+【INFO】2026-05-24 21:48:06,616 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:48:30,620 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:48:35,761 - plugin.py - 已刷新插件备份: BrushFlow
+【INFO】2026-05-24 21:48:35,787 - plugin.py - 正在停止插件 BrushFlow...
+【INFO】2026-05-24 21:48:35,797 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:48:35,870 - plugin.py - 加载插件：BrushFlow 版本：4.3.5
+【INFO】2026-05-24 21:48:36,621 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:48:53,472 - plugin.py - 已刷新插件备份: SiteStatistic
+【INFO】2026-05-24 21:48:53,507 - plugin.py - 正在停止插件 SiteStatistic...
+【INFO】2026-05-24 21:48:53,517 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:48:53,548 - plugin.py - 加载插件：SiteStatistic 版本：1.9
+【INFO】2026-05-24 21:48:54,624 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:49:12,626 - plugin.py - 获取到 299 个线上插件
+【WARNING】2026-05-24 21:49:24,629 - log.py - Failed to fetch image from URL: https://github.com/lightolly.png
+【WARNING】2026-05-24 21:49:24,629 - log.py - Failed to fetch image from URL: https://github.com/InfinityPacer.png
+【INFO】2026-05-24 21:49:41,465 - plugin.py - 已刷新插件备份: SiteRefresh
+【INFO】2026-05-24 21:49:41,496 - plugin.py - 正在停止插件 SiteRefresh...
+【INFO】2026-05-24 21:49:41,508 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:49:41,518 - plugin.py - 加载插件：SiteRefresh 版本：1.2
+【INFO】2026-05-24 21:49:42,632 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:50:57,789 - plugin.py - 已刷新插件备份: DoubanSync
+【INFO】2026-05-24 21:50:57,818 - plugin.py - 正在停止插件 DoubanSync...
+【INFO】2026-05-24 21:50:57,828 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:50:57,847 - plugin.py - 加载插件：DoubanSync 版本：2.1.0
+【INFO】2026-05-24 21:51:00,642 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:51:04,455 - site.py - 开始同步CookieCloud站点 ...
+【WARNING】2026-05-24 21:51:04,466 - log.py - 本地CookieCloud文件不存在：/config/cookies/AddMyWeChatNasplayer.json
+【ERROR】2026-05-24 21:51:04,467 - site.py - CookieCloud同步失败：未从本地CookieCloud服务加载到cookie数据，请检查服务器设置、用户KEY及加密密码是否正确
+【INFO】2026-05-24 21:51:20,970 - plugin.py - 已刷新插件备份: RemoveLink
+【INFO】2026-05-24 21:51:20,999 - plugin.py - 正在停止插件 RemoveLink...
+【INFO】2026-05-24 21:51:21,010 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:51:21,060 - plugin.py - 加载插件：RemoveLink 版本：2.13
+【INFO】2026-05-24 21:51:21,645 - plugin.py - 获取到 299 个线上插件
+【WARNING】2026-05-24 21:51:33,648 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/InfinityPacer/MoviePilot-Plugins/main/icons/hitandrun.png
+【WARNING】2026-05-24 21:51:33,648 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/InfinityPacer/MoviePilot-Plugins/main/icons/trafficassistant.png
+【INFO】2026-05-24 21:51:48,502 - plugin.py - 已刷新插件备份: MediaSyncDel
+【INFO】2026-05-24 21:51:48,531 - plugin.py - 正在停止插件 MediaSyncDel...
+【INFO】2026-05-24 21:51:48,543 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:51:48,568 - plugin.py - 加载插件：MediaSyncDel 版本：1.9.2
+【INFO】2026-05-24 21:51:51,665 - plugin.py - 获取到 299 个线上插件
+【WARNING】2026-05-24 21:52:06,667 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/InfinityPacer/MoviePilot-Plugins/main/icons/trafficassistant.png
+【INFO】2026-05-24 21:52:42,672 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:53:45,681 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:54:21,686 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:54:59,911 - plugin.py - 正在停止插件 SiteRefresh...
+【INFO】2026-05-24 21:54:59,922 - plugin.py - 插件 SiteRefresh 共清除 1 个模块缓存：['app.plugins.siterefresh']
+【INFO】2026-05-24 21:54:59,923 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:55:00,692 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:55:09,693 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:55:27,242 - plugin.py - 已刷新插件备份: gladossign
+【INFO】2026-05-24 21:55:27,267 - plugin.py - 正在停止插件 gladossign...
+【INFO】2026-05-24 21:55:27,279 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:55:27,308 - plugin.py - 加载插件：gladossign 版本：1.7.0
+【INFO】2026-05-24 21:55:27,696 - plugin.py - 获取到 299 个线上插件
+【WARNING】2026-05-24 21:55:36,698 - log.py - Failed to fetch image from URL: https://raw.githubusercontent.com/InfinityPacer/MoviePilot-Plugins/main/icons/trafficassistant.png
+【WARNING】2026-05-24 21:55:51,701 - log.py - Failed to fetch image from URL: https://github.com/madrays.png
+【INFO】2026-05-24 21:56:04,461 - mediaserver.py - 正在准备同步媒体服务器 amilys-emby 的数据
+【INFO】2026-05-24 21:56:04,462 - mediaserver.py - 开始同步媒体服务器 amilys-emby 的数据 ...
+【INFO】2026-05-24 21:56:04,523 - mediaserver.py - 9kg 未在 amilys-emby 同步媒体库列表中，跳过
+【INFO】2026-05-24 21:56:04,523 - mediaserver.py - 正在同步 amilys-emby 媒体库 电视剧 ...
+【INFO】2026-05-24 21:56:04,718 - mediaserver.py - amilys-emby 媒体库 电视剧 同步完成，共同步数量：0
+【INFO】2026-05-24 21:56:04,719 - mediaserver.py - 正在同步 amilys-emby 媒体库 电影 ...
+【INFO】2026-05-24 21:56:04,763 - mediaserver.py - amilys-emby 媒体库 电影 同步完成，共同步数量：0
+【INFO】2026-05-24 21:56:04,768 - mediaserver.py - 媒体服务器 amilys-emby 清理陈旧数据完成，删除数量：0
+【INFO】2026-05-24 21:56:04,769 - mediaserver.py - 媒体服务器 amilys-emby 数据同步完成，总同步数量：0
+【INFO】2026-05-24 21:56:21,706 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:58:37,309 - plugin.py - 正在停止插件 MediaSyncDel...
+【INFO】2026-05-24 21:58:37,323 - plugin.py - 插件 MediaSyncDel 共清除 1 个模块缓存：['app.plugins.mediasyncdel']
+【INFO】2026-05-24 21:58:37,324 - plugin.py - 插件停止完成
+【INFO】2026-05-24 21:58:39,724 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 21:58:51,727 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 22:00:57,741 - plugin.py - 获取到 299 个线上插件
+【INFO】2026-05-24 22:01:27,351 - thetvdb - 开始创建TVDB登录会话...
+【ERROR】2026-05-24 22:01:57,382 - thetvdb - TVDB 连接会话错误: TVDB登录会话创建失败: TVDB认证失败: 网络连接失败，未收到响应
+【INFO】2026-05-24 22:03:04,269 - system.py - 已备份插件目录: agentresourceofficer
+【INFO】2026-05-24 22:03:04,270 - system.py - 已备份插件目录: airecognizerenhancer
+【INFO】2026-05-24 22:03:04,270 - system.py - 已备份插件目录: apprisemsg
+【INFO】2026-05-24 22:03:04,270 - system.py - 已备份插件目录: autoauction
+【INFO】2026-05-24 22:03:04,270 - system.py - 已备份插件目录: autoclean
+【INFO】2026-05-24 22:03:04,270 - system.py - 已备份插件目录: autosubv2
+【INFO】2026-05-24 22:03:04,270 - system.py - 已备份插件目录: bangumicoll
+【INFO】2026-05-24 22:03:04,270 - system.py - 已备份插件目录: barkmsg
+【INFO】2026-05-24 22:03:04,270 - system.py - 已备份插件目录: bugreporter
+【INFO】2026-05-24 22:03:04,271 - system.py - 已备份插件目录: categoryeditor
+【INFO】2026-05-24 22:03:04,271 - system.py - 已备份插件目录: chatgpt
+【INFO】2026-05-24 22:03:04,271 - system.py - 已备份插件目录: chinesesubfinder
+【INFO】2026-05-24 22:03:04,271 - system.py - 已备份插件目录: clashruleprovider
+【INFO】2026-05-24 22:03:04,271 - system.py - 已备份插件目录: cleaninvalidplugin
+【INFO】2026-05-24 22:03:04,271 - system.py - 已备份插件目录: cleaninvalidseed
+【INFO】2026-05-24 22:03:04,272 - system.py - 已备份插件目录: cloudflarespeedtest
+【INFO】2026-05-24 22:03:04,272 - system.py - 已备份插件目录: contractcheck
+【INFO】2026-05-24 22:03:04,273 - system.py - 已备份插件目录: crossseed
+【INFO】2026-05-24 22:03:04,273 - system.py - 已备份插件目录: customhosts
+【INFO】2026-05-24 22:03:04,273 - system.py - 已备份插件目录: customindexer
+【INFO】2026-05-24 22:03:04,273 - system.py - 已备份插件目录: customsites
+【INFO】2026-05-24 22:03:04,274 - system.py - 已备份插件目录: dailysummary
+【INFO】2026-05-24 22:03:04,274 - system.py - 已备份插件目录: dailyword
+【INFO】2026-05-24 22:03:04,274 - system.py - 已备份插件目录: dingdingmsg
+【INFO】2026-05-24 22:03:04,275 - system.py - 已备份插件目录: doubanrank
+【INFO】2026-05-24 22:03:04,275 - system.py - 已备份插件目录: downloadingmsg
+【INFO】2026-05-24 22:03:04,275 - system.py - 已备份插件目录: downloadsitetag
+【INFO】2026-05-24 22:03:04,275 - system.py - 已备份插件目录: dynamicwechat
+【INFO】2026-05-24 22:03:04,275 - system.py - 已备份插件目录: episodegroupmeta
+【INFO】2026-05-24 22:03:04,275 - system.py - 已备份插件目录: feishucommandbridgelong
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: feishumsg
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: ffmpegthumb
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: gotifymsg
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: hdhiveopenapi
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: historytov2
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: imdbsource
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: invitessignin
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: ipdetect
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: iyuuauth
+【INFO】2026-05-24 22:03:04,276 - system.py - 已备份插件目录: iyuuautoseed
+【INFO】2026-05-24 22:03:04,277 - system.py - 已备份插件目录: iyuumsg
+【INFO】2026-05-24 22:03:04,277 - system.py - 已备份插件目录: lexiannot
+【INFO】2026-05-24 22:03:04,277 - system.py - 已备份插件目录: libraryscraper
+【INFO】2026-05-24 22:03:04,277 - system.py - 已备份插件目录: linkmonitor
+【INFO】2026-05-24 22:03:04,277 - system.py - 已备份插件目录: mediaservermsg
+【INFO】2026-05-24 22:03:04,277 - system.py - 已备份插件目录: mediaserverrefresh
+【INFO】2026-05-24 22:03:04,277 - system.py - 已备份插件目录: meowmsg
+【INFO】2026-05-24 22:03:04,279 - system.py - 已备份插件目录: moviepilotupdatenotify
+【INFO】2026-05-24 22:03:04,279 - system.py - 已备份插件目录: mpserverstatus
+【INFO】2026-05-24 22:03:04,279 - system.py - 已备份插件目录: multiclass
+【INFO】2026-05-24 22:03:07,281 - system.py - 已备份插件目录: neodbsync
+【INFO】2026-05-24 22:03:07,281 - system.py - 已备份插件目录: ntfymsg
+【INFO】2026-05-24 22:03:07,281 - system.py - 已备份插件目录: personmeta
+【INFO】2026-05-24 22:03:07,281 - system.py - 已备份插件目录: playletcategory
+【INFO】2026-05-24 22:03:07,281 - system.py - 已备份插件目录: pushdeermsg
+【INFO】2026-05-24 22:03:07,281 - system.py - 已备份插件目录: pushplusmsg
+【INFO】2026-05-24 22:03:07,281 - system.py - 已备份插件目录: qbcommand
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: quarksharesaver
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: remoteidentifiers
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: rsssubscribe
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: speedlimiter
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: subscribeclear
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: synccookiecloud
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: tmdbwallpaper
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: tobypasstrackers
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: torrentremover
+【INFO】2026-05-24 22:03:07,282 - system.py - 已备份插件目录: torrenttransfer
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: trackereditor
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: trendingshow
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: tvdbdiscover
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: tvfirstwatch
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: webhook
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: wechatclawbot
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: workwechatmsg
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: wxpushermsg
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: zvideohelper
+【INFO】2026-05-24 22:03:07,283 - system.py - 已备份插件目录: cloudlinkmonitor
+【INFO】2026-05-24 22:03:07,283 - system.py - 插件备份完成，备份位置: /config/plugins_backup
+【INFO】2026-05-24 22:03:07,284 - monitor.py - 正在停止本地目录监控服务...
+【INFO】2026-05-24 22:03:07,284 - monitor.py - 本地目录监控服务已停止
+【INFO】2026-05-24 22:03:07,284 - scheduler.py - 正在停止定时任务...
+【INFO】2026-05-24 22:03:07,284 - scheduler.py - 定时任务停止完成
+【INFO】2026-05-24 22:03:07,284 - plugin.py - 正在停止所有插件...
+【INFO】2026-05-24 22:03:07,284 - plugin.py - 插件停止完成
+【INFO】2026-05-24 22:03:07,284 - plugin.py - 未启用插件文件修改监测，无需停止
+【INFO】2026-05-24 22:03:07,284 - module.py - 正在停止所有模块...
+【INFO】2026-05-24 22:03:07,284 - thetvdb - TheTvDbModule 停止。正在清除 TVDB 会话。
+【INFO】2026-05-24 22:03:07,284 - module.py - 所有模块停止完成
+【INFO】2026-05-24 22:03:07,285 - event.py - 正在停止事件处理...
+【INFO】2026-05-24 22:03:07,285 - event.py - 事件处理停止完成
+【INFO】2026-05-24 22:03:07,285 - display.py - 正在停止虚拟显示...
+【INFO】2026-05-24 22:03:07,285 - display.py - 虚拟显示已停止
+【INFO】2026-05-24 22:03:07,285 - message.py - 正在停止消息队列...

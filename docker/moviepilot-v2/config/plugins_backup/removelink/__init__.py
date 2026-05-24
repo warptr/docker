@@ -1,5 +1,7 @@
 import os
 import platform
+import copy
+import shutil
 import threading
 import time
 import traceback
@@ -9,8 +11,6 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import NamedTuple
 
-from watchdog.events import FileSystemEventHandler
-from watchdog.observers.polling import PollingObserver
 from app.db.transferhistory_oper import TransferHistoryOper
 from app.log import logger
 from app.plugins import _PluginBase
@@ -20,6 +20,65 @@ from app.schemas.types import EventType
 from app.chain.storage import StorageChain
 from app import schemas
 
+try:
+    from watchdog.events import FileSystemEventHandler
+    from watchdog.observers.polling import PollingObserver
+except ImportError:
+    class FileSystemEventHandler:
+        def __init__(self, *args, **kwargs):
+            pass
+
+    class _WatchfilesEvent:
+        def __init__(self, src_path: str, is_directory: bool = False):
+            self.src_path = src_path
+            self.is_directory = is_directory
+
+    class _WatchfilesObserver:
+        def __init__(self):
+            self.daemon = False
+            self._watches = []
+            self._threads = []
+            self._stop_event = threading.Event()
+
+        def schedule(self, event_handler, path, recursive=True):
+            self._watches.append((event_handler, path, recursive))
+
+        def start(self):
+            for event_handler, path, recursive in self._watches:
+                thread = threading.Thread(
+                    target=self._watch,
+                    args=(event_handler, path, recursive),
+                    daemon=self.daemon,
+                )
+                self._threads.append(thread)
+                thread.start()
+
+        def stop(self):
+            self._stop_event.set()
+
+        def join(self, timeout=None):
+            for thread in self._threads:
+                thread.join(timeout)
+
+        def _watch(self, event_handler, path, recursive):
+            from watchfiles import Change, watch
+
+            for changes in watch(
+                path, recursive=recursive, stop_event=self._stop_event
+            ):
+                for change, changed_path in changes:
+                    changed_path = str(changed_path)
+                    if change == Change.added:
+                        event_handler.on_created(
+                            _WatchfilesEvent(
+                                changed_path, Path(changed_path).is_dir()
+                            )
+                        )
+                    elif change == Change.deleted:
+                        event_handler.on_deleted(_WatchfilesEvent(changed_path))
+
+    PollingObserver = _WatchfilesObserver
+
 state_lock = threading.Lock()
 deletion_queue_lock = threading.Lock()
 
@@ -27,6 +86,7 @@ deletion_queue_lock = threading.Lock()
 class FileInfo(NamedTuple):
     """文件信息"""
 
+    dev: int
     inode: int
     add_time: datetime
 
@@ -36,7 +96,9 @@ class DeletionTask:
     """延迟删除任务"""
 
     file_path: Path
+    deleted_dev: int
     deleted_inode: int
+    deleted_add_time: datetime
     timestamp: datetime
     processed: bool = False
 
@@ -77,7 +139,11 @@ class FileMonitorHandler(FileSystemEventHandler):
                 if not file_path.exists():
                     return
                 stat_info = file_path.stat()
-                file_info = FileInfo(inode=stat_info.st_ino, add_time=datetime.now())
+                file_info = FileInfo(
+                    dev=stat_info.st_dev,
+                    inode=stat_info.st_ino,
+                    add_time=datetime.now(),
+                )
                 self.sync.file_state[str(file_path)] = file_info
                 logger.debug(f"添加文件到监控：{file_path}")
             except (OSError, PermissionError) as e:
@@ -166,7 +232,11 @@ def updateState(monitor_dirs: List[str]):
                         # 获取文件统计信息
                         stat_info = file_path.stat()
                         # 记录文件信息
-                        file_info = FileInfo(inode=stat_info.st_ino, add_time=init_time)
+                        file_info = FileInfo(
+                            dev=stat_info.st_dev,
+                            inode=stat_info.st_ino,
+                            add_time=init_time,
+                        )
                         file_state[str(file_path)] = file_info
                     except (OSError, PermissionError) as e:
                         error_count += 1
@@ -196,7 +266,7 @@ class RemoveLink(_PluginBase):
     # 插件图标
     plugin_icon = "Ombi_A.png"
     # 插件版本
-    plugin_version = "2.5"
+    plugin_version = "2.13"
     # 插件作者
     plugin_author = "DzAvril"
     # 作者主页
@@ -238,6 +308,11 @@ class RemoveLink(_PluginBase):
         ".csf-tmp",
     ]
 
+    # 刮削/媒体服务器生成的关联目录后缀
+    SCRAP_DIR_SUFFIXES = [
+        ".trickplay",
+    ]
+
     # preivate property
     monitor_dirs = ""
     exclude_dirs = ""
@@ -251,10 +326,12 @@ class RemoveLink(_PluginBase):
     _delay_seconds = 30
     _monitor_strm_deletion = False
     strm_path_mappings = ""
+    custom_scrap_extensions = ""
+    _custom_scrap_extensions = []
     _transferhistory = None
     _storagechain = None
     _observer = []
-    # 监控目录的文件列表 {文件路径: FileInfo(inode, add_time)}
+    # 监控目录的文件列表 {文件路径: FileInfo(dev, inode, add_time)}
     file_state: Dict[str, FileInfo] = {}
     # 延迟删除队列
     deletion_queue: List[DeletionTask] = []
@@ -302,11 +379,16 @@ class RemoveLink(_PluginBase):
             self._delayed_deletion = config.get("delayed_deletion", True)
             self._monitor_strm_deletion = config.get("monitor_strm_deletion", False)
             self.strm_path_mappings = config.get("strm_path_mappings") or ""
-            # 验证延迟时间范围
-            delay_seconds = config.get("delay_seconds", 30)
-            self._delay_seconds = (
-                max(10, min(300, int(delay_seconds))) if delay_seconds else 30
+            self.custom_scrap_extensions = config.get("custom_scrap_extensions") or ""
+            self._custom_scrap_extensions = self._parse_custom_scrap_extensions(
+                self.custom_scrap_extensions
             )
+            # 验证延迟时间范围，允许用户设置较长的延迟时间（最长 24 小时）
+            delay_seconds = config.get("delay_seconds", 30)
+            try:
+                self._delay_seconds = max(10, min(86400, int(delay_seconds)))
+            except (TypeError, ValueError):
+                self._delay_seconds = 30
 
         # 停止现有任务
         self.stop_service()
@@ -599,7 +681,7 @@ class RemoveLink(_PluginBase):
                                             "label": "延迟时间(秒)",
                                             "type": "number",
                                             "min": 10,
-                                            "max": 300,
+                                            "max": 86400,
                                             "placeholder": "30",
                                         },
                                     }
@@ -662,6 +744,29 @@ class RemoveLink(_PluginBase):
                                     }
                                 ],
                             },
+                        ],
+                    },
+                    # 硬链接配置说明
+                    {
+                        "component": "VRow",
+                        "content": [
+                            {
+                                "component": "VCol",
+                                "props": {"cols": 12},
+                                "content": [
+                                    {
+                                        "component": "VTextarea",
+                                        "props": {
+                                            "model": "custom_scrap_extensions",
+                                            "label": "自定义刮削文件后缀",
+                                            "rows": 3,
+                                            "placeholder": "每行或逗号分隔一个后缀，例如：.txt\n.json\n-mediainfo.json",
+                                            "hint": "开启清理刮削文件后生效，会与内置 .nfo/.jpg/.srt 等后缀一起联动清理",
+                                            "persistent-hint": True,
+                                        },
+                                    }
+                                ],
+                            }
                         ],
                     },
                     # 硬链接配置说明
@@ -867,6 +972,7 @@ class RemoveLink(_PluginBase):
             "monitor_dirs": "",
             "exclude_dirs": "",
             "exclude_keywords": "",
+            "custom_scrap_extensions": "",
             "monitor_strm_deletion": False,
             "strm_path_mappings": "",
         }
@@ -917,28 +1023,79 @@ class RemoveLink(_PluginBase):
 
         logger.debug("服务停止完成")
 
+    @staticmethod
+    def _normalize_config_path(config_path: str) -> str:
+        """规范化配置中的目录路径，保留不存在路径的可比较形式。"""
+        return os.path.normcase(os.path.normpath(str(Path(config_path).expanduser())))
+
+    @classmethod
+    def _is_same_or_child_path(cls, path: Path, base_path: str) -> bool:
+        """判断 path 是否等于 base_path 或位于 base_path 下，避免子串误匹配。"""
+        if not base_path:
+            return False
+        normalized_path = cls._normalize_config_path(str(path))
+        normalized_base = cls._normalize_config_path(base_path)
+        try:
+            return os.path.commonpath([normalized_path, normalized_base]) == normalized_base
+        except ValueError:
+            return False
+
     def __is_excluded(self, file_path: Path) -> bool:
         """
         是否排除目录
         """
         for exclude_dir in self.exclude_dirs.split("\n"):
-            if exclude_dir and exclude_dir in str(file_path):
+            exclude_dir = exclude_dir.strip()
+            if exclude_dir and self._is_same_or_child_path(file_path, exclude_dir):
                 return True
         return False
 
     @staticmethod
-    def scrape_files_left(path):
+    def _parse_custom_scrap_extensions(custom_extensions: str) -> List[str]:
+        """
+        解析用户自定义刮削文件后缀，支持换行、逗号和中文逗号分隔。
+        """
+        if not custom_extensions:
+            return []
+        extensions = []
+        for item in custom_extensions.replace("，", ",").replace("\n", ",").split(","):
+            extension = item.strip().lower()
+            if not extension:
+                continue
+            if not extension.startswith(".") and not extension.startswith("-"):
+                extension = f".{extension}"
+            if extension not in extensions:
+                extensions.append(extension)
+        return extensions
+
+    def _scrap_extensions(self) -> List[str]:
+        """
+        返回内置和用户自定义刮削文件后缀。
+        """
+        extensions = list(self.SCRAP_EXTENSIONS)
+        for extension in self._custom_scrap_extensions:
+            if extension not in extensions:
+                extensions.append(extension)
+        return extensions
+
+    def _is_scrap_file(self, path: Path) -> bool:
+        """
+        判断文件是否属于可联动清理的刮削文件。
+        """
+        name = path.name.lower()
+        return any(name.endswith(extension) for extension in self._scrap_extensions())
+
+    def scrape_files_left(self, path):
         """
         检查path目录是否只包含刮削文件
         """
-        # 检查path下是否有目录
-        for dir_path in os.listdir(path):
-            if os.path.isdir(os.path.join(path, dir_path)):
-                return False
-
-        # 检查path下是否有非刮削文件
+        # 检查path下是否有非刮削文件或非刮削目录
         for file in path.iterdir():
-            if not file.suffix.lower() in RemoveLink.SCRAP_EXTENSIONS:
+            if file.is_dir():
+                if file.suffix.lower() not in self.SCRAP_DIR_SUFFIXES:
+                    return False
+                continue
+            if not self._is_scrap_file(file):
                 return False
         return True
 
@@ -952,14 +1109,16 @@ class RemoveLink(_PluginBase):
         if not os.path.exists(path.parent):
             return
         try:
-            if not path.suffix.lower() in self.SCRAP_EXTENSIONS:
+            if not self._is_scrap_file(path):
                 # 清理与path相关的刮削文件
                 name_prefix = path.stem
                 for file in path.parent.iterdir():
-                    if (
-                        file.name.startswith(name_prefix)
-                        and file.suffix.lower() in self.SCRAP_EXTENSIONS
-                    ):
+                    if not file.name.startswith(name_prefix):
+                        continue
+                    if file.is_dir() and file.suffix.lower() in self.SCRAP_DIR_SUFFIXES:
+                        shutil.rmtree(file)
+                        logger.info(f"删除刮削目录：{file}")
+                    elif self._is_scrap_file(file):
                         file.unlink()
                         logger.info(f"删除刮削文件：{file}")
         except Exception as e:
@@ -1001,8 +1160,12 @@ class RemoveLink(_PluginBase):
                 if self.scrape_files_left(parent_path):
                     # 清除目录下所有文件
                     for file in parent_path.iterdir():
-                        file.unlink()
-                        logger.info(f"删除刮削文件：{file}")
+                        if file.is_dir():
+                            shutil.rmtree(file)
+                            logger.info(f"删除刮削目录：{file}")
+                        else:
+                            file.unlink()
+                            logger.info(f"删除刮削文件：{file}")
             except Exception as e:
                 logger.error(f"清理刮削文件发生错误：{str(e)}.")
 
@@ -1024,6 +1187,38 @@ class RemoveLink(_PluginBase):
             # 更新路径为父目录，准备下一轮检查
             path = parent_path
 
+    def _unlink_tracked_file(self, file: Path, state_key: str, action: str) -> bool:
+        """
+        删除 file_state 中记录的硬链接文件。
+
+        监控事件可能先后到达：用户手动删除源文件后，又在插件处理前手动删除了
+        对应硬链接。此时 file_state 里仍可能保存着已不存在的路径，直接 unlink
+        会抛出 FileNotFoundError 并中断当前批次清理。这里把这种过期状态视为
+        已经被外部清理，移除记录后继续处理其它文件，避免删除队列/监控流程被卡住。
+        """
+        if self.__is_excluded(file):
+            logger.debug(f"文件 {file} 在不删除目录中，跳过")
+            return False
+
+        try:
+            logger.info(f"{action}硬链接文件：{state_key}")
+            file.unlink()
+        except FileNotFoundError:
+            logger.warning(f"硬链接文件已不存在，清理过期监控记录：{state_key}")
+            self.file_state.pop(state_key, None)
+            return False
+        except OSError as e:
+            logger.error(f"删除硬链接文件失败：{state_key} - {e}")
+            return False
+
+        self.file_state.pop(state_key, None)
+        return True
+
+    @staticmethod
+    def _same_file_identity(file_info: FileInfo, dev: int, inode: int) -> bool:
+        """判断两个监控记录是否指向同一个本地文件实体。"""
+        return file_info.dev == dev and file_info.inode == inode
+
     def _execute_delayed_deletion(self, task: DeletionTask):
         """
         执行延迟删除任务
@@ -1039,13 +1234,14 @@ class RemoveLink(_PluginBase):
             # 检查是否有相同inode的新文件（重新硬链接的情况）
             with state_lock:
                 for path, file_info in self.file_state.items():
-                    if file_info.inode == task.deleted_inode and path != str(
-                        task.file_path
-                    ):
-                        # 检查文件是否在删除任务创建之后被添加到监控中
-                        if file_info.add_time > task.timestamp:
+                    if self._same_file_identity(
+                        file_info, task.deleted_dev, task.deleted_inode
+                    ) and path != str(task.file_path):
+                        # 检查文件是否晚于被删除路径加入监控，重新整理时新硬链接事件
+                        # 可能早于删除事件到达，不能只比较删除任务创建时间。
+                        if file_info.add_time > task.deleted_add_time:
                             logger.info(
-                                f"检测到相同inode的新文件 {path}，添加时间 {file_info.add_time} 晚于删除时间 {task.timestamp}，可能是重新硬链接，跳过删除操作"
+                                f"检测到相同文件实体的新文件 {path}，添加时间 {file_info.add_time} 晚于原路径加入时间 {task.deleted_add_time}，可能是重新硬链接，跳过删除操作"
                             )
                             return
 
@@ -1058,7 +1254,7 @@ class RemoveLink(_PluginBase):
             self.delete_scrap_infos(task.file_path)
             if self._delete_torrents:
                 # 只有非刮削文件才发送 DownloadFileDeleted 事件
-                if task.file_path.suffix.lower() not in self.SCRAP_EXTENSIONS:
+                if not self._is_scrap_file(task.file_path):
                     eventmanager.send_event(
                         EventType.DownloadFileDeleted, {"src": str(task.file_path)}
                     )
@@ -1070,30 +1266,24 @@ class RemoveLink(_PluginBase):
 
             with state_lock:
                 for path, file_info in self.file_state.copy().items():
-                    if file_info.inode == task.deleted_inode:
+                    if self._same_file_identity(
+                        file_info, task.deleted_dev, task.deleted_inode
+                    ):
                         file = Path(path)
-                        if self.__is_excluded(file):
-                            logger.debug(f"文件 {file} 在不删除目录中，跳过")
+                        if not self._unlink_tracked_file(file, path, "延迟删除"):
                             continue
-
-                        # 删除硬链接文件
-                        logger.info(f"延迟删除硬链接文件：{path}")
-                        file.unlink()
                         deleted_files.append(path)
 
                         # 清理硬链接文件相关的刮削文件
                         self.delete_scrap_infos(file)
                         if self._delete_torrents:
                             # 只有非刮削文件才发送 DownloadFileDeleted 事件
-                            if file.suffix.lower() not in self.SCRAP_EXTENSIONS:
+                            if not self._is_scrap_file(file):
                                 eventmanager.send_event(
                                     EventType.DownloadFileDeleted, {"src": str(file)}
                                 )
                         # 删除硬链接文件的转移记录
                         self.delete_history(str(file))
-
-                        # 从状态集合中移除
-                        self.file_state.pop(path, None)
 
             # 发送通知（在锁外执行）
             if self._notify and deleted_files:
@@ -1221,6 +1411,8 @@ class RemoveLink(_PluginBase):
                 return
             else:
                 deleted_inode = file_info.inode
+                deleted_dev = file_info.dev
+                deleted_add_time = file_info.add_time
                 self.file_state.pop(str(file_path))
 
             # 根据配置选择立即删除或延迟删除
@@ -1231,7 +1423,9 @@ class RemoveLink(_PluginBase):
                 )
                 task = DeletionTask(
                     file_path=file_path,
+                    deleted_dev=deleted_dev,
                     deleted_inode=deleted_inode,
+                    deleted_add_time=deleted_add_time,
                     timestamp=datetime.now(),
                 )
 
@@ -1252,7 +1446,7 @@ class RemoveLink(_PluginBase):
                 self.delete_scrap_infos(file_path)
                 if self._delete_torrents:
                     # 只有非刮削文件才发送 DownloadFileDeleted 事件
-                    if file_path.suffix.lower() not in self.SCRAP_EXTENSIONS:
+                    if not self._is_scrap_file(file_path):
                         eventmanager.send_event(
                             EventType.DownloadFileDeleted, {"src": str(file_path)}
                         )
@@ -1262,21 +1456,19 @@ class RemoveLink(_PluginBase):
                 try:
                     # 在file_state中查找与deleted_inode有相同inode的文件并删除
                     for path, file_info in self.file_state.copy().items():
-                        if file_info.inode == deleted_inode:
+                        if self._same_file_identity(
+                            file_info, deleted_dev, deleted_inode
+                        ):
                             file = Path(path)
-                            if self.__is_excluded(file):
-                                logger.debug(f"文件 {file} 在不删除目录中，跳过")
+                            if not self._unlink_tracked_file(file, path, "立即删除"):
                                 continue
-                            # 删除硬链接文件
-                            logger.info(f"立即删除硬链接文件：{path}")
-                            file.unlink()
                             deleted_files.append(path)
 
                             # 清理刮削文件
                             self.delete_scrap_infos(file)
                             if self._delete_torrents:
                                 # 只有非刮削文件才发送 DownloadFileDeleted 事件
-                                if file.suffix.lower() not in self.SCRAP_EXTENSIONS:
+                                if not self._is_scrap_file(file):
                                     eventmanager.send_event(
                                         EventType.DownloadFileDeleted,
                                         {"src": str(file)},
@@ -1462,7 +1654,7 @@ class RemoveLink(_PluginBase):
                     # 检查是否为相关的刮削文件
                     if (
                         file_stem.startswith(base_name)
-                        and file_ext in self.SCRAP_EXTENSIONS
+                        and self._is_scrap_file(Path(file_item.name))
                     ) or (
                         file_item.name.lower()
                         in [
@@ -1522,7 +1714,7 @@ class RemoveLink(_PluginBase):
 
                 if not files:
                     # 目录为空，删除它
-                    if self._storagechain.delete_file(current_item):
+                    if self._delete_storage_empty_dir(storage_type, current_item):
                         logger.info(f"删除网盘空目录: [{storage_type}] {current_path}")
                         deleted_count += 1
 
@@ -1543,8 +1735,7 @@ class RemoveLink(_PluginBase):
                     only_scrap_files = True
                     for file_item in files:
                         if file_item.type == "file":
-                            file_ext = Path(file_item.name).suffix.lower()
-                            if file_ext not in self.SCRAP_EXTENSIONS:
+                            if not self._is_scrap_file(Path(file_item.name)):
                                 only_scrap_files = False
                                 break
                         else:
@@ -1575,7 +1766,9 @@ class RemoveLink(_PluginBase):
                             )
                             if not files:
                                 # 现在目录为空，删除它
-                                if self._storagechain.delete_file(current_item):
+                                if self._delete_storage_empty_dir(
+                                    storage_type, current_item
+                                ):
                                     logger.info(
                                         f"删除网盘空目录: [{storage_type}] {current_path}"
                                     )
@@ -1608,6 +1801,48 @@ class RemoveLink(_PluginBase):
             )
 
         return deleted_count
+
+    def _delete_storage_empty_dir(
+        self, storage_type: str, dir_item: schemas.FileItem
+    ) -> bool:
+        """
+        精确删除指定网盘空目录。
+
+        OpenList/Alist 的 remove_empty_directory 只清理传入目录下一级空目录，
+        不能删除传入目录本身。这里复用通用删除接口的语义，让适配器走
+        /api/fs/remove 等价路径，避免把路径改到父目录后触发父目录扫描。
+        """
+        if storage_type.lower() not in ("alist", "openlist"):
+            return bool(self._storagechain.delete_file(dir_item))
+
+        delete_item = self._as_storage_remove_item(dir_item)
+        return bool(self._storagechain.delete_file(delete_item))
+
+    @staticmethod
+    def _as_storage_remove_item(file_item: schemas.FileItem) -> schemas.FileItem:
+        """
+        构造用于通用 remove 删除的 FileItem。
+
+        MoviePilot 的 Alist/OpenList 适配器会在 type == "dir" 且为空目录时
+        优先使用 remove_empty_directory；将删除请求作为通用条目传入，可以
+        让适配器使用 /api/fs/remove 删除 file_item.path 指定的目录本身。
+        """
+        try:
+            if hasattr(file_item, "model_copy"):
+                delete_item = file_item.model_copy(update={"type": "file"})
+            elif hasattr(file_item, "copy"):
+                delete_item = file_item.copy(update={"type": "file"})
+            else:
+                delete_item = copy.copy(file_item)
+                delete_item.type = "file"
+        except Exception:
+            delete_item = copy.copy(file_item)
+            delete_item.type = "file"
+
+        if not getattr(delete_item, "name", None):
+            delete_item.name = Path(delete_item.path).name
+
+        return delete_item
 
     def _get_storage_dir_item(
         self, storage_type: str, dir_path: str
