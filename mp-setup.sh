@@ -127,7 +127,7 @@ if [ -f "update_mp_core.sh" ]; then
     echo "======================================="
     echo "⚙️ 检测到 update_mp_core.sh，准备执行核心环境初始化..."
     chmod +x update_mp_core.sh
-    bash ./update_mp_core.sh
+    echo "$DOCKER_PATH" | bash ./update_mp_core.sh
     echo "⚙️ 初始化脚本执行完毕！"
     echo "======================================="
 else
