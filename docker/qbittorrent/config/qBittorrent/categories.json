@@ -1,0 +1,23 @@
+{
+    "9kg": {
+        "save_path": "/media/9kg"
+    },
+    "书": {
+        "save_path": "/media/书/自动添加文件夹"
+    },
+    "保种": {
+        "save_path": "/media/其他/保种"
+    },
+    "刷流": {
+        "save_path": "/media/其他/刷流"
+    },
+    "电影": {
+        "save_path": "/media/下载/电影"
+    },
+    "电视剧": {
+        "save_path": "/media/下载/电视剧"
+    },
+    "音乐": {
+        "save_path": "/media/音乐"
+    }
+}

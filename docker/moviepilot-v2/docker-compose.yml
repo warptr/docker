@@ -1,0 +1,71 @@
+version: '3.3'
+
+services:
+  qbittorrent:
+    image: registry.jihulab.com/tmzg0000/docker/linuxserver/qbittorrent:4.6.7
+#    5版本 image: registry.jihulab.com/tmzg0000/docker/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Asia/Shanghai
+      - WEBUI_PORT=19990
+      # - TORRENTING_PORT=50004
+    volumes:
+      - '${DOCKER_PATH}/qbittorrent/config/:/config'
+      - '${MEDIA_PATH}:/media'
+      - '${MEDIA_PATH}/下载:/downloads'
+    network_mode: "host"
+#    ports:
+#      - "19990:19990"
+    restart: always
+
+  moviepilot:
+    image: registry.jihulab.com/tmzg0000/docker/jxxghp/moviepilot-v2:latest
+    container_name: moviepilot-v2
+    hostname: moviepilot-v2
+    stdin_open: true  # 是否打开标准输入流（交互模式），为 true 时容器可以保持运行并与用户交互
+    tty: true  # 是否分配伪终端，使容器的终端行为更像一个真实的终端
+    environment:
+      - NGINX_PORT=13000
+      - PORT=13001
+      - PUID=0
+      - PGID=0
+      - UMASK=000
+      - TZ=Asia/Shanghai
+      - MOVIEPILOT_AUTO_UPDATE=false
+      - SUPERUSER=admin  # 设置超级用户
+      - API_TOKEN=AddMyWeChatNasplayer    # 16位以上的复杂字符串
+    volumes:
+      - '${MEDIA_PATH}:/media'
+      - '${DOCKER_PATH}/moviepilot-v2/config:/config'
+      - '${DOCKER_PATH}/moviepilot-v2/core:/moviepilot/.cloakbrowser'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - '${DOCKER_PATH}/qbittorrent/config/qBittorrent/BT_backup:/BT_backup'
+#      - '${DOCKER_PATH}/transmission/config/torrents:/torrents'
+    network_mode: "host"
+#    ports:
+#      - "13000:13000"
+    restart: always
+
+  amilys-emby:
+    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver:latest
+#    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver_arm64v8:latest
+    container_name: amilys-emby
+    environment:
+#      - HTTP_PROXY=http://127.0.0.1:20171
+#      - HTTPS_PROXY=http://127.0.0.1:20171
+#      - NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+      - TZ=Asia/Shanghai
+      - PUID=0
+      - PGID=0
+      - GIDLIST=0
+    volumes:
+      - '${DOCKER_PATH}/amilys-emby/config:/config'
+      - '${MEDIA_PATH}:/media'
+    network_mode: "host"
+#    ports:
+#      - "18096:18096"
+    restart: always
+    devices:
+      - /dev/dri:/dev/dri

@@ -8,7 +8,7 @@ echo "🚀 MoviePilot 内核更新器 【CloakBrowser 官方纯血同步版】"
 echo "========================================================="
 
 # 设置默认的 docker 基础路径
-DEFAULT_DOCKER_PATH="/vol1/1000/docker"
+DEFAULT_DOCKER_PATH="${DOCKER_PATH}"
 
 # 1. 引导用户输入，直接回车则使用默认值
 read -p "📂 请输入你的 docker 根目录路径 [默认: $DEFAULT_DOCKER_PATH]: " USER_INPUT
@@ -69,6 +69,6 @@ chmod -R +x .
 
 echo "--------------------------------------------------------"
 echo "✅ 大功告成！CloakBrowser 官方原厂内核已完美注入路径: $TARGET_PATH"
-echo "🐳 飞牛后台 Docker 挂载请确保为: /vol1/1000/docker/moviepilot-v2/core ➡️ /moviepilot/.cloakbrowser"
+echo "🐳 飞牛后台 Docker 挂载请确保为: ${DOCKER_PATH}/moviepilot-v2/core ➡️ /moviepilot/.cloakbrowser"
 echo "🚀 现在你可以放心无脑启动或重启你的 MoviePilot 容器了！"
 echo "========================================================="
