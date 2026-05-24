@@ -8,6 +8,7 @@ __pycache__/
 #*.db
 #*.sqlite
 
+
 # 忽略 MoviePilot 的缓存、日志和临时目录（强烈建议加上）
 **/moviepilot-v2/config/cache/
 **/moviepilot-v2/config/logs/
