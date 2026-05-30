@@ -48,11 +48,11 @@ echo -e "\n-> 已选择分支: $SELECTED_BRANCH，开始准备部署..."
 echo "======================================="
 echo "  配置环境变量 (直接回车使用默认值)"
 echo "======================================="
-read -p "请输入 DOCKER_PATH [默认: /vol1/1000/docker]: " INPUT_DOCKER
-DOCKER_PATH=${INPUT_DOCKER:-/vol1/1000/docker}
+read -p "请输入 DOCKER_PATH [默认: /volume1/docker]: " INPUT_DOCKER
+DOCKER_PATH=${INPUT_DOCKER:-/volume1/docker}
 
-read -p "请输入 MEDIA_PATH  [默认: /vol1/1000/media]: " INPUT_MEDIA
-MEDIA_PATH=${INPUT_MEDIA:-/vol1/1000/media}
+read -p "请输入 MEDIA_PATH  [默认: /volume1/media]: " INPUT_MEDIA
+MEDIA_PATH=${INPUT_MEDIA:-/volume1/media}
 
 echo "-> 最终 DOCKER_PATH: $DOCKER_PATH"
 echo "-> 最终 MEDIA_PATH:  $MEDIA_PATH"
