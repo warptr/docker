@@ -3,7 +3,7 @@
 一键安装命令
 
 ```bash
-bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/mp-setup.sh")
+bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/mp-setup-choose.sh")
 ```
 
 一键安装浏览器核心命令
