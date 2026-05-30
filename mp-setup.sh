@@ -46,13 +46,23 @@ echo -e "\n-> 已选择分支: $SELECTED_BRANCH，开始准备部署..."
 # 1. 交互式配置环境变量
 # ==========================================
 echo "======================================="
-echo "  配置环境变量 (直接回车使用默认值)"
+echo "  配置环境变量 (例如: /tmp/zfsv3/sata11/你的极空间手机号/data/docker 然后回车)"
 echo "======================================="
-read -p "请输入 DOCKER_PATH [默认: /vol1/1000/docker]: " INPUT_DOCKER
-DOCKER_PATH=${INPUT_DOCKER:-/vol1/1000/docker}
+DOCKER_PATH=""
+while [ -z "$DOCKER_PATH" ]; do
+    read -p "请输入 DOCKER_PATH: " DOCKER_PATH
+    if [ -z "$DOCKER_PATH" ]; then
+        echo "错误: DOCKER_PATH 不能为空，请重新输入！"
+    fi
+done
 
-read -p "请输入 MEDIA_PATH  [默认: /vol1/1000/media]: " INPUT_MEDIA
-MEDIA_PATH=${INPUT_MEDIA:-/vol1/1000/media}
+MEDIA_PATH=""
+while [ -z "$MEDIA_PATH" ]; do
+    read -p "请输入 MEDIA_PATH: " MEDIA_PATH
+    if [ -z "$MEDIA_PATH" ]; then
+        echo "错误: MEDIA_PATH 不能为空，请重新输入！"
+    fi
+done
 
 echo "-> 最终 DOCKER_PATH: $DOCKER_PATH"
 echo "-> 最终 MEDIA_PATH:  $MEDIA_PATH"
