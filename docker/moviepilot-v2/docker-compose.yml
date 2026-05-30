@@ -49,8 +49,8 @@ services:
     restart: always
 
   amilys-emby:
-    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver:latest
-#    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver_arm64v8:latest
+#    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver:latest
+    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver_arm64v8:latest
     container_name: amilys-emby
     environment:
 #      - HTTP_PROXY=http://127.0.0.1:20171
