@@ -3,7 +3,7 @@
 一键安装命令
 
 ```bash
-bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/mp-setup.sh")
+bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/mp-setup-choose.sh")
 ```
 
 一键安装浏览器核心命令
@@ -19,7 +19,7 @@ bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/update_mp_core.
 各分支同步main命令
 
 ```
-$branches = "fnos", "fnos-arm", "ugreen"; foreach ($b in $branches) { git checkout $b; git merge main --no-edit; git push } ; git checkout main
+$branches = "dsm", "fnos", "fnos-arm", "qnap", "ugreen", "zspace", "zspace-arm", "zspace-z4s"; foreach ($b in $branches) { git checkout $b; git merge main --no-edit; git push } ; git checkout main
 ```
 
 
