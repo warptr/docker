@@ -55,7 +55,7 @@ echo "======================================="
 
 # 无缝衔接执行子脚本
 if command -v curl &> /dev/null; then
-    bash <(curl -sSL "$TARGET_SCRIPT_URL")
+    bash <(curl -sSL "$TARGET_SCRIPT_URL" | sed "s/read -p.*choice.*/choice=$choice/g")
 else
-    bash <(wget -qO- "$TARGET_SCRIPT_URL")
+    bash <(wget -qO- "$TARGET_SCRIPT_URL" | sed "s/read -p.*choice.*/choice=$choice/g")
 fi
