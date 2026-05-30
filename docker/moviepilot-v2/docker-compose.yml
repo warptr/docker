@@ -47,7 +47,7 @@ services:
 #    ports:
 #      - "13000:13000"
     restart: always
-
+    privileged: true  #Z4S必加参数
   amilys-emby:
     image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver:latest
 #    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver_arm64v8:latest
