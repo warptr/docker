@@ -109,7 +109,16 @@ if [ -f "${EXTRACTED_ROOT}media.zip" ]; then
     mkdir -p "$MEDIA_PATH"
 
     # 将临时目录中的 media.zip 静默解压到指定的 MEDIA_PATH
-    unzip -qo "${EXTRACTED_ROOT}media.zip" -d "$MEDIA_PATH"
+    if command -v unzip >/dev/null 2>&1; then
+        unzip -qo "${EXTRACTED_ROOT}media.zip" -d "$MEDIA_PATH"
+    elif command -v 7zz >/dev/null 2>&1; then
+        7zz x "${EXTRACTED_ROOT}media.zip" -o"$MEDIA_PATH" -y >/dev/null
+    elif command -v 7z >/dev/null 2>&1; then
+        7z x "${EXTRACTED_ROOT}media.zip" -o"$MEDIA_PATH" -y >/dev/null
+    else
+        echo "❌ 未找到可用解压工具"
+        exit 1
+    fi
 
     echo "📦 媒体预设包释放完毕！"
     echo "======================================="
