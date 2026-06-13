@@ -83,8 +83,18 @@ fi
 # 3. 解压并精准提取/释放文件
 # ==========================================
 echo "📂 正在解析安装包..."
-mkdir -p $TMP_DIR
-unzip -qo $ZIP_NAME -d $TMP_DIR
+mkdir -p "$TMP_DIR"
+
+if command -v unzip >/dev/null 2>&1; then
+    unzip -qo "$ZIP_NAME" -d "$TMP_DIR"
+elif command -v 7zz >/dev/null 2>&1; then
+    7zz x "$ZIP_NAME" -o"$TMP_DIR" -y >/dev/null
+elif command -v 7z >/dev/null 2>&1; then
+    7z x "$ZIP_NAME" -o"$TMP_DIR" -y >/dev/null
+else
+    echo "❌ 未找到可用解压工具"
+    exit 1
+fi
 
 # 获取极狐解压后的真实根目录
 EXTRACTED_ROOT=$(ls -d $TMP_DIR/*/)
