@@ -3,6 +3,12 @@
 echo "======================================="
 echo "  NAS Docker 多分支部署引导器"
 echo "======================================="
+
+# ==========================================
+# GitHub 加速镜像配置（失效时只需修改此处，留空则直连）
+# ==========================================
+GITHUB_PROXY="https://ghfast.top"
+
 echo "正在连接 GitHub 获取分支列表..."
 
 # GitHub 官方 API 路径
@@ -20,7 +26,7 @@ if [ -z "$RESPONSE" ]; then
     exit 1
 fi
 
-# 提取分支名称
+# 提取分支名称（去除空格以兼容 GitHub API 的 JSON 格式）
 BRANCHES=($(echo "$RESPONSE" | tr -d ' ' | grep -o '"name":"[^"]*"' | awk -F'"' '{print $4}'))
 
 if [ ${#BRANCHES[@]} -eq 0 ]; then
@@ -53,9 +59,32 @@ TARGET_SCRIPT_URL="https://raw.githubusercontent.com/warptr/docker/${SELECTED_BR
 echo "🔄 正在呼叫 [$SELECTED_BRANCH] 分支的专属安装脚本..."
 echo "======================================="
 
-# 无缝衔接执行子脚本
-if command -v curl &> /dev/null; then
-    bash <(curl -sSL "$TARGET_SCRIPT_URL" | sed "s/read -p.*choice.*/choice=$choice/g")
-else
-    bash <(wget -qO- "$TARGET_SCRIPT_URL" | sed "s/read -p.*choice.*/choice=$choice/g")
+# 下载目标脚本（先试加速，失败回退直连）
+TMP_SCRIPT=$(mktemp)
+SCRIPT_OK=false
+
+if [ -n "$GITHUB_PROXY" ]; then
+    PROXY_URL="${GITHUB_PROXY}/${TARGET_SCRIPT_URL#https://}"
+    if command -v curl &> /dev/null; then
+        curl -sSL --connect-timeout 10 "$PROXY_URL" -o "$TMP_SCRIPT" 2>/dev/null
+    else
+        wget -q --timeout=10 -O "$TMP_SCRIPT" "$PROXY_URL" 2>/dev/null
+    fi
+    if [ -s "$TMP_SCRIPT" ]; then
+        echo "✅ 加速下载成功"
+        SCRIPT_OK=true
+    else
+        echo "⚠️ 加速失败，回退直连..."
+    fi
 fi
+
+if [ "$SCRIPT_OK" = false ]; then
+    if command -v curl &> /dev/null; then
+        curl -sSL "$TARGET_SCRIPT_URL" -o "$TMP_SCRIPT"
+    else
+        wget -q -O "$TMP_SCRIPT" "$TARGET_SCRIPT_URL"
+    fi
+fi
+
+bash <(sed "s/read -p.*choice.*/choice=$choice/g" "$TMP_SCRIPT")
+rm -f "$TMP_SCRIPT"
