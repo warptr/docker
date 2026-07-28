@@ -1,0 +1,99 @@
+name: Sync MoviePilot Core Tarballs to GitHub Release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 20 * * 3' # 每周三自动执行
+
+permissions:
+  contents: write # 授予 Release 读写权限
+
+jobs:
+  fetch-and-upload-tar:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # 🛡️ amd64 和 arm64 互不干扰，独立跑完
+      matrix:
+        architecture: [amd64, arm64]
+
+    steps:
+      - name: Download and Package Whole Core
+        id: get_core
+        run: |
+          mkdir -p /tmp/mp-core-download
+          cd /tmp/mp-core-download
+
+          # 1. 架构变量独立映射
+          if [ "${{ matrix.architecture }}" = "amd64" ]; then
+            CLOAK_ARCH="x64"
+          else
+            CLOAK_ARCH="arm64"
+          fi
+
+          ASSET_NAME="cloakbrowser-linux-${CLOAK_ARCH}.tar.gz"
+          echo "🔍 正在通过 GitHub API 搜索包含 $ASSET_NAME 的最新官方版本..."
+
+          # 2. ⭐【核心搜索黑科技：彻底告别 404】
+          DOWNLOAD_URL=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/CloakHQ/CloakBrowser/releases" | \
+            jq -r "[.[].assets[] | select(.name == \"${ASSET_NAME}\")] | .[0].browser_download_url")
+
+          if [ -z "$DOWNLOAD_URL" ] || [ "$DOWNLOAD_URL" = "null" ]; then
+            echo "❌ 致命错误：在所有官方历史版本中均未找到 $ASSET_NAME！"
+            exit 1
+          fi
+
+          echo "🎯 成功锁定官方最新动态直链: $DOWNLOAD_URL"
+
+          # 精准提取 URL 中的版本号
+          RAW_VER=$(echo "$DOWNLOAD_URL" | grep -oE "14[0-9]\.[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)
+          if [ -z "$RAW_VER" ]; then
+             echo "❌ 错误：无法从下载链接中提取有效的版本号！"
+             exit 1
+          fi
+          echo "🏷️ 提取到的核心版本号为: $RAW_VER"
+
+          TAR_NAME="mp-core-all-${{ matrix.architecture }}.tar.gz"
+
+          # 3. 下载原始扁平包
+          echo "📥 正在下载官方原厂内核扁平包..."
+          wget -q --show-progress "$DOWNLOAD_URL" -O raw-core.tar.gz
+
+          if [ ! -s raw-core.tar.gz ]; then
+            echo "❌ 错误：下载失败，包为空！"
+            exit 1
+          fi
+
+          # 4. ⭐【核心伪装】：重建 MoviePilot 所需的目录结构
+          echo "🛠️ 正在组装 MoviePilot 标准目录树..."
+          mkdir -p "chromium-${RAW_VER}"
+          tar -xzf raw-core.tar.gz -C "chromium-${RAW_VER}"
+
+          touch .last_update_check
+          touch .welcome_shown
+
+          # 5. 将套娃文件夹重新打包
+          echo "📦 正在生成最终注入包..."
+          tar -czf "$GITHUB_WORKSPACE/$TAR_NAME" "chromium-${RAW_VER}" .last_update_check .welcome_shown
+
+          echo "tar_name=$TAR_NAME" >> $GITHUB_OUTPUT
+
+      - name: Upload to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          FILE_NAME="${{ steps.get_core.outputs.tar_name }}"
+
+          # 确保 Release 存在，不存在则创建
+          if ! gh release view v2-latest >/dev/null 2>&1; then
+            echo "📦 Release v2-latest 不存在，正在创建..."
+            gh release create v2-latest \
+              --title "MoviePilot Core v2-latest" \
+              --notes "MoviePilot CloakBrowser 官方内核包（每周三自动同步更新）"
+          fi
+
+          # 上传（--clobber 自动覆盖同名旧文件）
+          echo "🚀 正在将 $FILE_NAME 上传至 GitHub Release v2-latest..."
+          gh release upload v2-latest "$FILE_NAME" --clobber
+
+          echo "✅ $FILE_NAME 已成功上传至 GitHub Release！"
