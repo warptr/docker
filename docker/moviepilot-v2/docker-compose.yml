@@ -2,8 +2,8 @@ version: '3.3'
 
 services:
   qbittorrent:
-    image: registry.jihulab.com/tmzg0000/docker/linuxserver/qbittorrent:4.6.7
-#    5版本 image: registry.jihulab.com/tmzg0000/docker/linuxserver/qbittorrent:latest
+    image: registry.cn-guangzhou.aliyuncs.com/alyhub/linuxserver-qbittorrent:4.6.7
+#    5版本 image: registry.cn-guangzhou.aliyuncs.com/alyhub/linuxserver-qbittorrent:latest
     container_name: qbittorrent
     environment:
       - PUID=0
@@ -21,7 +21,7 @@ services:
     restart: always
 
   moviepilot:
-    image: registry.jihulab.com/tmzg0000/docker/jxxghp/moviepilot-v2:latest
+    image: registry.cn-guangzhou.aliyuncs.com/alyhub/jxxghp-moviepilot-v2:latest
     container_name: moviepilot-v2
     hostname: moviepilot-v2
     stdin_open: true  # 是否打开标准输入流（交互模式），为 true 时容器可以保持运行并与用户交互
@@ -49,8 +49,8 @@ services:
     restart: always
     privileged: true  #Z4S必加参数
   amilys-emby:
-    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver:latest
-#    image: registry.jihulab.com/tmzg0000/docker/amilys/embyserver_arm64v8:latest
+    image: registry.cn-guangzhou.aliyuncs.com/alyhub/amilys-embyserver:latest
+#    image: registry.cn-guangzhou.aliyuncs.com/alyhub/amilys-embyserver_arm64v8:latest
     container_name: amilys-emby
     environment:
 #      - HTTP_PROXY=http://127.0.0.1:20171
