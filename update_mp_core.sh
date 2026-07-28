@@ -47,7 +47,12 @@ case "$ARCH" in
         ;;
 esac
 
-# 5. 拼接GitHub Release Assets 下载直链
+# ==========================================
+# GitHub 加速镜像配置（失效时只需修改此处，留空则直连）
+# ==========================================
+GITHUB_PROXY="https://ghfast.top"
+
+# 5. 拼接 GitHub Release Assets 下载直链
 DOWNLOAD_URL="https://github.com/warptr/docker/releases/download/v2-latest/mp-core-all-${MP_ARCH}.tar.gz"
 
 echo "--------------------------------------------------------"
@@ -56,9 +61,22 @@ cd "$TARGET_PATH"
 # 精准清除旧文件及以 . 开头的隐藏目录
 rm -rf ..?* .[!.]* * || true
 
-# ⭐ 新增：强制防缓存参数，确保每次拉取的都是GitHub 最新版！
-echo "📥 正在通过GitHub 下载最新官方原厂包..."
-wget --no-cache --no-cookies --no-dns-cache -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
+echo "📥 正在下载最新官方原厂包..."
+# 先试加速，失败则回退直连
+if [ -n "$GITHUB_PROXY" ]; then
+    PROXY_URL="${GITHUB_PROXY}/${DOWNLOAD_URL#https://}"
+    echo "⚡ 尝试加速下载..."
+    wget --no-cache --timeout=15 -q -O mp-core-all.tar.gz "$PROXY_URL" 2>/dev/null || true
+    if [ ! -s mp-core-all.tar.gz ]; then
+        echo "⚠️ 加速失败，回退直连..."
+        rm -f mp-core-all.tar.gz
+        wget --no-cache --no-cookies --no-dns-cache -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
+    else
+        echo "✅ 加速下载成功！"
+    fi
+else
+    wget --no-cache --no-cookies --no-dns-cache -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
+fi
 
 echo "📦 正在标准解压并释放原生目录树..."
 tar -xzpf mp-core-all.tar.gz
