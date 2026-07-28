@@ -34,11 +34,11 @@ fi
 ARCH=$(uname -m)
 case "$ARCH" in
     x86_64)
-        JIHU_ARCH="amd64"
+        MP_ARCH="amd64"
         echo "💻 检测到当前机器为: x86_64 (Intel/AMD) 架构"
         ;;
     aarch64|arm64)
-        JIHU_ARCH="arm64"
+        MP_ARCH="arm64"
         echo "📱 检测到当前机器为: ARM64 架构"
         ;;
     *)
@@ -47,8 +47,8 @@ case "$ARCH" in
         ;;
 esac
 
-# 5. 拼接极狐免密公开直链
-DOWNLOAD_URL="https://jihulab.com/api/v4/projects/tmzg0000%2Fdocker/packages/generic/moviepilot-core/v2-latest/mp-core-all-${JIHU_ARCH}.tar.gz"
+# 5. 拼接 GitHub Release Assets 下载直链
+DOWNLOAD_URL="https://github.com/warptr/docker/releases/download/v2-latest/mp-core-all-${MP_ARCH}.tar.gz"
 
 echo "--------------------------------------------------------"
 echo "🧹 正在深度清理旧内核及隐藏残渣..."
@@ -56,8 +56,8 @@ cd "$TARGET_PATH"
 # 精准清除旧文件及以 . 开头的隐藏目录
 rm -rf ..?* .[!.]* * || true
 
-# ⭐ 新增：强制防缓存参数，确保每次拉取的都是极狐云端最新版！
-echo "📥 正在通过极狐国内下载最新官方原厂包..."
+# ⭐ 新增：强制防缓存参数，确保每次拉取的都是 GitHub 最新版！
+echo "📥 正在通过 GitHub 下载最新官方原厂包..."
 wget --no-cache --no-cookies --no-dns-cache -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
 
 echo "📦 正在标准解压并释放原生目录树..."

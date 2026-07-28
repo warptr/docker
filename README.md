@@ -3,15 +3,15 @@
 一键安装命令
 
 ```bash
-bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/mp-setup-choose.sh")
+bash <(curl -sSL "https://raw.githubusercontent.com/warptr/docker/main/mp-setup-choose.sh")
 ```
 
 一键安装浏览器核心命令
 
 ```bash
-bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/update_mp_core.sh")
+bash <(curl -sSL "https://raw.githubusercontent.com/warptr/docker/main/update_mp_core.sh")
 
-bash <(curl -sSL "https://jihulab.com/tmzg0000/docker/-/raw/main/update_mp_core.sh" | tr -d '\r')
+bash <(curl -sSL "https://raw.githubusercontent.com/warptr/docker/main/update_mp_core.sh" | tr -d '\r')
 ```
 
 
@@ -24,46 +24,39 @@ $branches = "dsm", "fnos", "fnos-arm", "qnap", "ugreen", "zspace", "zspace-arm",
 
 
 
-
-
 ## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+To make it easy for you to get started with GitHub, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Already a pro? Just edit this README.md and make it your own.
 
 ## Add your files
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+* [Create](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-files-to-a-repository) or [upload](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-files-to-a-repository#uploading-files) files
+* [Add files using the command line](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-files-to-a-repository) or push an existing Git repository with the following command:
 
 ```
 cd existing_repo
-git remote add origin https://jihulab.com/tmzg0000/docker.git
+git remote add origin https://github.com/warptr/docker.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-* [Set up project integrations](https://jihulab.com/tmzg0000/docker/-/settings/integrations)
+* [Set up project integrations](https://github.com/warptr/docker/settings)
 
 ## Collaborate with your team
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+* [Invite team members and collaborators](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-access-to-your-personal-repositories)
+* [Create a new pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
+* [Automatically close issues from pull requests](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue)
+* [Enable merge request approvals](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/configuring-pull-request-approvals)
 
 ## Test and Deploy
 
-Use the built-in continuous integration in GitLab.
+Use the built-in continuous integration in GitHub.
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
-
-
+* [Get started with GitHub Actions](https://docs.github.com/en/actions/quickstart)
+* [Analyze your code for known vulnerabilities with CodeQL](https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/automatically-scanning-your-code-for-vulnerabilities-and-errors-using-codeql)
+* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS](https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider)

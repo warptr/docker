@@ -3,10 +3,10 @@
 echo "======================================="
 echo "  NAS Docker 交互式纯净部署脚本"
 echo "======================================="
-echo "正在连接极狐 GitLab 获取分支列表..."
+echo "正在连接 GitHub 获取分支列表..."
 
-# 极狐 GitLab 官方 API 路径
-API_URL="https://jihulab.com/api/v4/projects/tmzg0000%2Fdocker/repository/branches"
+# GitHub 官方 API 路径
+API_URL="https://api.github.com/repos/warptr/docker/branches"
 
 if command -v curl &> /dev/null; then
     RESPONSE=$(curl -s "$API_URL")
@@ -19,8 +19,8 @@ if [ -z "$RESPONSE" ]; then
     exit 1
 fi
 
-# 提取分支名称
-BRANCHES=($(echo "$RESPONSE" | grep -o '"name":"[^"]*"' | awk -F'"' '{print $4}'))
+# 提取分支名称（去除空格以兼容 GitHub API 的 JSON 格式）
+BRANCHES=($(echo "$RESPONSE" | tr -d ' ' | grep -o '"name":"[^"]*"' | awk -F'"' '{print $4}'))
 
 if [ ${#BRANCHES[@]} -eq 0 ]; then
     echo "❌ 未能解析到任何分支，退出。"
@@ -63,7 +63,7 @@ cd "$DOCKER_PATH" || { echo "❌ 无法进入目录 $DOCKER_PATH，请检查权�
 # ==========================================
 # 2. 下载临时 ZIP 包
 # ==========================================
-ZIP_URL="https://jihulab.com/tmzg0000/docker/-/archive/${SELECTED_BRANCH}/docker-${SELECTED_BRANCH}.zip"
+ZIP_URL="https://github.com/warptr/docker/archive/refs/heads/${SELECTED_BRANCH}.zip"
 ZIP_NAME="temp_archive.zip"
 TMP_DIR="temp_extract_dir"
 
@@ -96,7 +96,7 @@ else
     exit 1
 fi
 
-# 获取极狐解压后的真实根目录
+# 获取解压后的真实根目录
 EXTRACTED_ROOT=$(ls -d $TMP_DIR/*/)
 
 # 🌟 新增核心逻辑：解压项目根目录里的 media.zip 到用户指定的 MEDIA_PATH
