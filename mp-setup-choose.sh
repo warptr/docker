@@ -3,10 +3,10 @@
 echo "======================================="
 echo "  NAS Docker 多分支部署引导器"
 echo "======================================="
-echo "正在连接极狐 GitLab 获取分支列表..."
+echo "正在连接 GitHub 获取分支列表..."
 
-# 极狐 GitLab 官方 API 路径
-API_URL="https://jihulab.com/api/v4/projects/tmzg0000%2Fdocker/repository/branches"
+# GitHub 官方 API 路径
+API_URL="https://api.github.com/repos/warptr/docker/branches"
 
 # 获取 API 响应
 if command -v curl &> /dev/null; then
@@ -21,7 +21,7 @@ if [ -z "$RESPONSE" ]; then
 fi
 
 # 提取分支名称
-BRANCHES=($(echo "$RESPONSE" | grep -o '"name":"[^"]*"' | awk -F'"' '{print $4}'))
+BRANCHES=($(echo "$RESPONSE" | tr -d ' ' | grep -o '"name":"[^"]*"' | awk -F'"' '{print $4}'))
 
 if [ ${#BRANCHES[@]} -eq 0 ]; then
     echo "❌ 未能解析到任何分支，退出。"
@@ -48,7 +48,7 @@ echo -e "\n-> 🎯 已选择分支: $SELECTED_BRANCH"
 # ==========================================
 # 核心：拉取并直接执行目标分支的纯净部署脚本
 # ==========================================
-TARGET_SCRIPT_URL="https://jihulab.com/tmzg0000/docker/-/raw/${SELECTED_BRANCH}/mp-setup.sh"
+TARGET_SCRIPT_URL="https://raw.githubusercontent.com/warptr/docker/${SELECTED_BRANCH}/mp-setup.sh"
 
 echo "🔄 正在呼叫 [$SELECTED_BRANCH] 分支的专属安装脚本..."
 echo "======================================="
