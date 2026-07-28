@@ -3,6 +3,36 @@
 echo "======================================="
 echo "  NAS Docker 交互式纯净部署脚本"
 echo "======================================="
+
+# ==========================================
+# GitHub 加速镜像配置（失效时只需修改此处，留空则直连）
+# ==========================================
+GITHUB_PROXY="https://ghfast.top"
+
+# 带回退的下载函数：先试加速，失败则直连
+smart_download() {
+    local url="$1" output="$2" proxy_url=""
+    if [ -n "$GITHUB_PROXY" ]; then
+        proxy_url="${GITHUB_PROXY}/${url#https://}"
+        if command -v wget > /dev/null; then
+            wget -q --timeout=15 -O "$output" "$proxy_url" 2>/dev/null
+        else
+            curl -sL --connect-timeout 15 -o "$output" "$proxy_url" 2>/dev/null
+        fi
+        if [ -s "$output" ]; then
+            echo "✅ 加速下载成功"
+            return 0
+        fi
+        rm -f "$output"
+        echo "⚠️ 加速失败，回退直连..."
+    fi
+    if command -v wget > /dev/null; then
+        wget -q --show-progress -O "$output" "$url"
+    else
+        curl -L -o "$output" "$url"
+    fi
+}
+
 echo "正在连接 GitHub 获取分支列表..."
 
 # GitHub 官方 API 路径
@@ -19,7 +49,7 @@ if [ -z "$RESPONSE" ]; then
     exit 1
 fi
 
-# 提取分支名称
+# 提取分支名称（去除空格以兼容 GitHub API 的 JSON 格式）
 BRANCHES=($(echo "$RESPONSE" | tr -d ' ' | grep -o '"name":"[^"]*"' | awk -F'"' '{print $4}'))
 
 if [ ${#BRANCHES[@]} -eq 0 ]; then
@@ -46,23 +76,13 @@ echo -e "\n-> 已选择分支: $SELECTED_BRANCH，开始准备部署..."
 # 1. 交互式配置环境变量
 # ==========================================
 echo "======================================="
-echo "  配置环境变量 (例如: /tmp/zfsv3/sata11/你的极空间手机号/data/docker 然后回车)"
+echo "  配置环境变量 (直接回车使用默认值)"
 echo "======================================="
-DOCKER_PATH=""
-while [ -z "$DOCKER_PATH" ]; do
-    read -p "请输入 DOCKER_PATH: " DOCKER_PATH
-    if [ -z "$DOCKER_PATH" ]; then
-        echo "错误: DOCKER_PATH 不能为空，请重新输入！"
-    fi
-done
+read -p "请输入 DOCKER_PATH [默认: /vol1/1000/docker]: " INPUT_DOCKER
+DOCKER_PATH=${INPUT_DOCKER:-/vol1/1000/docker}
 
-MEDIA_PATH=""
-while [ -z "$MEDIA_PATH" ]; do
-    read -p "请输入 MEDIA_PATH: " MEDIA_PATH
-    if [ -z "$MEDIA_PATH" ]; then
-        echo "错误: MEDIA_PATH 不能为空，请重新输入！"
-    fi
-done
+read -p "请输入 MEDIA_PATH  [默认: /vol1/1000/media]: " INPUT_MEDIA
+MEDIA_PATH=${INPUT_MEDIA:-/vol1/1000/media}
 
 echo "-> 最终 DOCKER_PATH: $DOCKER_PATH"
 echo "-> 最终 MEDIA_PATH:  $MEDIA_PATH"
@@ -78,13 +98,9 @@ ZIP_NAME="temp_archive.zip"
 TMP_DIR="temp_extract_dir"
 
 echo "📦 正在下载分支代码..."
-if command -v wget &> /dev/null; then
-    wget -q --show-progress -O $ZIP_NAME "$ZIP_URL"
-else
-    curl -L -o $ZIP_NAME "$ZIP_URL"
-fi
+smart_download "$ZIP_URL" "$ZIP_NAME"
 
-if [ ! -f "$ZIP_NAME" ]; then
+if [ ! -s "$ZIP_NAME" ]; then
     echo "❌ 下载失败，请重试。"
     exit 1
 fi
