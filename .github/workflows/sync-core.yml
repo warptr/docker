@@ -85,15 +85,15 @@ jobs:
           FILE_NAME="${{ steps.get_core.outputs.tar_name }}"
 
           # 确保 Release 存在，不存在则创建
-          if ! gh release view v2-latest >/dev/null 2>&1; then
+          if ! gh release view v2-latest --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             echo "📦 Release v2-latest 不存在，正在创建..."
-            gh release create v2-latest \
+            gh release create v2-latest --repo "$GITHUB_REPOSITORY" \
               --title "MoviePilot Core v2-latest" \
               --notes "MoviePilot CloakBrowser 官方内核包（每周三自动同步更新）"
           fi
 
           # 上传（--clobber 自动覆盖同名旧文件）
           echo "🚀 正在将 $FILE_NAME 上传至 GitHub Release v2-latest..."
-          gh release upload v2-latest "$FILE_NAME" --clobber
+          gh release upload v2-latest "$FILE_NAME" --clobber --repo "$GITHUB_REPOSITORY"
 
           echo "✅ $FILE_NAME 已成功上传至 GitHub Release！"
