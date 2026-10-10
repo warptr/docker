@@ -1,92 +1,174 @@
 #!/bin/bash
+set -Eeuo pipefail
 
-# 强制脚本遇到错误时立刻退出
-set -e
-
-echo "========================================================="
-echo "🚀 MoviePilot 内核更新器 【CloakBrowser 官方纯血同步版】"
-echo "========================================================="
-
-# 设置默认的 docker 基础路径
-DEFAULT_DOCKER_PATH="${DOCKER_PATH}"
-
-# 1. 引导用户输入，直接回车则使用默认值
-read -p "📂 请输入你的 docker 根目录路径 [默认: $DEFAULT_DOCKER_PATH]: " USER_INPUT
-
-# 如果用户直接敲回车（输入为空），则使用默认路径
-BASE_PATH="${USER_INPUT:-$DEFAULT_DOCKER_PATH}"
-
-# 移除用户可能多打的末尾斜杠
-BASE_PATH="${BASE_PATH%/}"
-
-# 2. 自动化拼装完整的 MoviePilot core 挂载路径
-TARGET_PATH="${BASE_PATH}/moviepilot-v2/core"
-
-echo "🎯 最终锁定的内核完整路径为: $TARGET_PATH"
-
-# 3. 核心自动化：如果完整路径不存在，自动创建
-if [ ! -d "$TARGET_PATH" ]; then
-    echo "📁 检测到目标路径不存在，正在为你全自动创建目录结构..."
-    mkdir -p "$TARGET_PATH"
-fi
-
-# 4. 自行判断当前机器的 CPU 架构
-ARCH=$(uname -m)
-case "$ARCH" in
-    x86_64)
-        MP_ARCH="amd64"
-        echo "💻 检测到当前机器为: x86_64 (Intel/AMD) 架构"
-        ;;
-    aarch64|arm64)
-        MP_ARCH="arm64"
-        echo "📱 检测到当前机器为: ARM64 架构"
-        ;;
-    *)
-        echo "❌ 错误：不支持的 CPU 架构: $ARCH"
-        exit 1
-        ;;
-esac
-
-# ==========================================
-# GitHub 加速镜像配置（失效时只需修改此处，留空则直连）
-# ==========================================
-GITHUB_PROXY="https://ghfast.top"
-
-# 5. 拼接 GitHub Release Assets 下载直链
-DOWNLOAD_URL="https://github.com/warptr/docker/releases/download/v2-latest/mp-core-all-${MP_ARCH}.tar.gz"
-
-echo "--------------------------------------------------------"
-echo "🧹 正在深度清理旧内核及隐藏残渣..."
-cd "$TARGET_PATH"
-# 精准清除旧文件及以 . 开头的隐藏目录
-rm -rf ..?* .[!.]* * || true
-
-echo "📥 正在下载最新官方原厂包..."
-# 先试加速，失败则回退直连
-if [ -n "$GITHUB_PROXY" ]; then
-    PROXY_URL="${GITHUB_PROXY}/${DOWNLOAD_URL#https://}"
-    echo "⚡ 尝试加速下载..."
-    wget --no-cache --timeout=15 -q -O mp-core-all.tar.gz "$PROXY_URL" 2>/dev/null || true
-    if [ ! -s mp-core-all.tar.gz ]; then
-        echo "⚠️ 加速失败，回退直连..."
-        rm -f mp-core-all.tar.gz
-        wget --no-cache --no-cookies --no-dns-cache -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
-    else
-        echo "✅ 加速下载成功！"
+WORK_DIR=""
+LOCK_DIR=""
+LOCK_HELD=false
+BACKUP_PATH=""
+PROMOTED=false
+CHECKSUM_INVALID=false
+cleanup() {
+    local status=$?
+    trap - EXIT
+    if [ "$PROMOTED" = false ] && [ -n "$BACKUP_PATH" ] && [ -d "$BACKUP_PATH" ]; then
+        if [ ! -e "$TARGET_PATH" ]; then
+            if ! mv -- "$BACKUP_PATH" "$TARGET_PATH"; then
+                echo "❌ 自动恢复失败，旧内核仍保存在 $BACKUP_PATH。" >&2
+                status=1
+            fi
+        fi
     fi
-else
-    wget --no-cache --no-cookies --no-dns-cache -q --show-progress "$DOWNLOAD_URL" -O mp-core-all.tar.gz
-fi
+    if [ -n "$WORK_DIR" ]; then rm -rf -- "$WORK_DIR"; fi
+    if [ "$LOCK_HELD" = true ]; then rmdir -- "$LOCK_DIR" || true; fi
+    exit "$status"
+}
+trap cleanup EXIT
+trap 'echo "❌ 内核更新失败（第 $LINENO 行），旧内核及备份已保留。" >&2' ERR
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
-echo "📦 正在标准解压并释放原生目录树..."
-tar -xzpf mp-core-all.tar.gz
-rm mp-core-all.tar.gz
+download_file() {
+    local url="$1" output="$2"
+    if command -v curl >/dev/null 2>&1; then
+        curl -fSL --connect-timeout 15 --max-time 900 --retry 2 --retry-delay 1 -o "$output" "$url"
+    elif command -v wget >/dev/null 2>&1; then
+        if command -v timeout >/dev/null 2>&1; then
+            timeout 900 wget --timeout=30 --tries=3 -O "$output" "$url"
+        else
+            wget --timeout=30 --tries=3 -O "$output" "$url"
+        fi
+    else
+        echo "❌ 需要 curl 或 wget。" >&2
+        return 1
+    fi
+}
 
-echo "🔒 正在强力注入本地可执行授权..."
-chmod -R +x .
+sha256_file() {
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$1" | awk '{print $1}'
+    elif command -v shasum >/dev/null 2>&1; then
+        shasum -a 256 "$1" | awk '{print $1}'
+    else
+        echo "❌ 校验文件要求 sha256sum 或 shasum。" >&2
+        return 1
+    fi
+}
 
-echo "--------------------------------------------------------"
-echo "✅ 大功告成！CloakBrowser 官方原厂内核已完美注入路径: $TARGET_PATH"
-echo "🐳 飞牛后台 Docker 挂载请确保为: ${DOCKER_PATH}/moviepilot-v2/core ➡️ /moviepilot/.cloakbrowser"
-echo "🚀 现在你可以放心无脑启动或重启你的 MoviePilot 容器了！"
+validate_checksum() {
+    local hash name extra
+    if read -r hash name extra < "$1" && [[ "$hash" =~ ^[[:xdigit:]]{64}$ && "${name#\*}" == "$ASSET_NAME" && -z "$extra" ]]; then
+        return 0
+    fi
+    CHECKSUM_INVALID=true
+    return 1
+}
+
+validate_core() {
+    local archive="$1" actual
+    tar -tzf "$archive" > "$WORK_DIR/members.txt" || return 1
+    if ! awk '/^\// || /(^|\/)\.\.(\/|$)/ { bad=1 } END { exit bad }' "$WORK_DIR/members.txt"; then
+        echo "❌ 内核包包含异常路径。" >&2
+        return 1
+    fi
+    if [ -n "$EXPECTED_HASH" ]; then
+        actual=$(sha256_file "$archive") || return 1
+        if [ "$actual" != "${EXPECTED_HASH,,}" ]; then
+            echo "❌ 内核包 SHA256 不匹配。" >&2
+            return 1
+        fi
+    fi
+}
+
+smart_download() {
+    local url="$1" output="$2" validator="$3" source
+    local sources=()
+    if [ -n "$GITHUB_PROXY" ]; then sources+=("${GITHUB_PROXY}/${url#https://}"); fi
+    sources+=("$url")
+    for source in "${sources[@]}"; do
+        rm -f -- "$output"
+        if download_file "$source" "$output" && [ -s "$output" ] && "$validator" "$output"; then
+            return 0
+        fi
+        echo "⚠️ 下载或校验失败：$source" >&2
+    done
+    rm -f -- "$output"
+    return 1
+}
+
 echo "========================================================="
+echo "🚀 MoviePilot 浏览器内核更新器"
+echo "========================================================="
+DEFAULT_DOCKER_PATH="${DOCKER_PATH:-/vol1/1000/docker}"
+read -r -p "📂 请输入 docker 根目录路径 [默认: $DEFAULT_DOCKER_PATH]: " USER_INPUT
+BASE_PATH="${USER_INPUT:-$DEFAULT_DOCKER_PATH}"
+if [[ "$BASE_PATH" != /* || "$BASE_PATH" == / || "$BASE_PATH" == *$'\n'* || "$BASE_PATH" == *$'\r'* ]]; then
+    echo "❌ 必须提供非根目录的绝对路径。" >&2
+    exit 1
+fi
+case "$(uname -m)" in
+    x86_64) MP_ARCH=amd64 ;;
+    aarch64|arm64) MP_ARCH=arm64 ;;
+    *) echo "❌ 不支持的 CPU 架构。" >&2; exit 1 ;;
+esac
+mkdir -p -- "$BASE_PATH"
+BASE_PATH=$(cd "$BASE_PATH" && pwd -P)
+if [ "$BASE_PATH" = / ]; then
+    echo "❌ 部署路径不能解析为根目录。" >&2
+    exit 1
+fi
+mkdir -p -- "$BASE_PATH/moviepilot-v2"
+CORE_PARENT=$(cd "$BASE_PATH/moviepilot-v2" && pwd -P)
+TARGET_PATH="$CORE_PARENT/core"
+if [ -L "$TARGET_PATH" ] || { [ -e "$TARGET_PATH" ] && [ ! -d "$TARGET_PATH" ]; }; then
+    echo "❌ core 必须是普通目录，不能是链接或文件。" >&2
+    exit 1
+fi
+LOCK_DIR="$CORE_PARENT/.core-update.lock"
+if ! mkdir -- "$LOCK_DIR"; then
+    echo "❌ 已有内核更新正在执行；若上次被强制终止，请确认无更新进程后移除 $LOCK_DIR。" >&2
+    exit 1
+fi
+LOCK_HELD=true
+WORK_DIR=$(mktemp -d "$CORE_PARENT/.core-update.XXXXXX")
+GITHUB_PROXY="${GITHUB_PROXY-https://ghfast.top}"
+ASSET_NAME="mp-core-all-${MP_ARCH}.tar.gz"
+DOWNLOAD_URL="https://github.com/warptr/docker/releases/download/v2-latest/$ASSET_NAME"
+EXPECTED_HASH=""
+if smart_download "$DOWNLOAD_URL.sha256" "$WORK_DIR/$ASSET_NAME.sha256" validate_checksum; then
+    read -r EXPECTED_HASH _ < "$WORK_DIR/$ASSET_NAME.sha256"
+else
+    if [ "$CHECKSUM_INVALID" = true ]; then
+        echo "❌ 已收到校验文件，但格式无效；拒绝跳过 SHA256 校验。" >&2
+        exit 1
+    fi
+    # 旧版 v2-latest 没有伴随校验文件，保留兼容并说明验证范围。
+    echo "⚠️ 校验文件不可用：兼容旧版 Release，仅检查压缩包完整性和目录结构。" >&2
+fi
+echo "📥 正在下载并校验内核，旧版本暂不改动..."
+smart_download "$DOWNLOAD_URL" "$WORK_DIR/$ASSET_NAME" validate_core
+mkdir "$WORK_DIR/new-core"
+tar -xzpf "$WORK_DIR/$ASSET_NAME" -C "$WORK_DIR/new-core"
+shopt -s nullglob dotglob
+ENTRIES=("$WORK_DIR/new-core/"*)
+BROWSERS=("$WORK_DIR/new-core/"chromium-*)
+if [ "${#BROWSERS[@]}" -ne 1 ] || [ ! -x "${BROWSERS[0]}/chrome" ]; then
+    echo "❌ 内核包缺少唯一的 chromium 目录或可执行 chrome。" >&2
+    exit 1
+fi
+for entry in "${ENTRIES[@]}"; do
+    case "$(basename "$entry")" in
+        chromium-*|.last_update_check|.welcome_shown) ;;
+        *) echo "❌ 内核包顶层结构异常：$entry" >&2; exit 1 ;;
+    esac
+done
+
+echo "📦 校验和解压成功，开始替换内核..."
+if [ -d "$TARGET_PATH" ]; then
+    BACKUP_PATH="$CORE_PARENT/core.backup.$(date +%Y%m%d-%H%M%S).$$"
+    mv -- "$TARGET_PATH" "$BACKUP_PATH"
+fi
+mv -- "$WORK_DIR/new-core" "$TARGET_PATH"
+PROMOTED=true
+echo "✅ 内核更新完成：$TARGET_PATH"
+if [ -n "$BACKUP_PATH" ]; then echo "📂 上一版本备份：$BACKUP_PATH"; fi
+echo "🐳 请重建或重启 MoviePilot 容器，以重新挂载新的内核目录。"
