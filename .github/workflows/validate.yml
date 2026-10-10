@@ -1,0 +1,24 @@
+name: Validate deployment scripts
+
+on:
+  push:
+    paths:
+      - '*.sh'
+      - '.github/**'
+      - 'tests/**'
+  pull_request:
+    paths:
+      - '*.sh'
+      - '.github/**'
+      - 'tests/**'
+  workflow_dispatch:
+
+jobs:
+  regression-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Bash syntax
+        run: bash -n mp-setup.sh && bash -n mp-setup-choose.sh && bash -n update_mp_core.sh
+      - name: Test deployment failures, recovery and packaging
+        run: python3 -m unittest discover -s tests -v
